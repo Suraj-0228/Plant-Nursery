@@ -1,0 +1,98 @@
+[
+  {
+    "name": "Monstera Deliciosa",
+    "category": "Indoor",
+    "price": 35.00,
+    "image": "https://i.pinimg.com/736x/6f/a0/96/6fa096a069c37900286eb23fc3538e8e.jpg",
+    "careDifficulty": "Easy",
+    "description": "A popular and easy-to-care-for houseplant with iconic split leaves. It thrives in bright, indirect light and adds a tropical vibe to any room."
+  },
+  {
+    "name": "Snake Plant",
+    "category": "Indoor",
+    "price": 25.00,
+    "image": "https://i.pinimg.com/736x/ad/9f/f5/ad9ff5303f28b17f53872e9838a83de9.jpg",
+    "careDifficulty": "Easy",
+    "description": "Known for its upright sword-like leaves, this plant tolerates low light and infrequent watering. A perfect choice for beginners."
+  },
+  {
+    "name": "Peace Lily",
+    "category": "Indoor",
+    "price": 28.00,
+    "image": "https://i.pinimg.com/736x/1e/34/22/1e3422ddd8e48df193b835c34a9626a9.jpg",
+    "careDifficulty": "Medium",
+    "description": "This elegant plant produces white blooms and thrives in low light. It also helps purify the air, making it a favorite for homes and offices."
+  },
+  {
+    "name": "Aloe Vera",
+    "category": "Indoor",
+    "price": 20.00,
+    "image": "https://i.pinimg.com/736x/f6/dd/71/f6dd7177c0ad228dabd287e8ff4e0bb8.jpg",
+    "careDifficulty": "Easy",
+    "description": "A succulent with thick, healing leaves often used for skincare. It needs bright sunlight and minimal watering to thrive."
+  },
+  {
+    "name": "Fiddle Leaf Fig",
+    "category": "Indoor",
+    "price": 45.00,
+    "image": "https://i.pinimg.com/1200x/50/44/3e/50443ed96f1d2243d3bc8c0cb412f408.jpg",
+    "careDifficulty": "Hard",
+    "description": "With its large violin-shaped leaves, this plant makes a bold statement. It requires consistent care and plenty of indirect light."
+  },
+  {
+    "name": "Jade Plant",
+    "category": "Indoor",
+    "price": 22.00,
+    "image": "https://i.pinimg.com/1200x/ac/6c/f5/ac6cf5323bad10b8f79e6d1bcbb912f2.jpg",
+    "careDifficulty": "Easy",
+    "description": "A symbol of good luck and prosperity, jade plants have thick, glossy leaves. They are drought-tolerant and love bright light."
+  },
+  {
+    "name": "Spider Plant",
+    "category": "Indoor",
+    "price": 18.00,
+    "image": "https://i.pinimg.com/1200x/2c/2e/2b/2c2e2b57cefd7a2830a7defd780e7d95.jpg",
+    "careDifficulty": "Easy",
+    "description": "This fast-growing plant is known for its arching green-and-white leaves. It produces baby offshoots that can be easily propagated."
+  },
+  {
+    "name": "Boston Fern",
+    "category": "Indoor",
+    "price": 30.00,
+    "image": "https://i.pinimg.com/736x/60/cd/0f/60cd0fff65642b2cd978bb7fcd76fe7b.jpg",
+    "careDifficulty": "Medium",
+    "description": "With lush feathery fronds, Boston ferns add greenery to any space. They prefer humid environments and indirect sunlight."
+  },
+  {
+    "name": "ZZ Plant",
+    "category": "Indoor",
+    "price": 32.00,
+    "image": "https://i.pinimg.com/736x/6b/cc/54/6bcc54d406c4e39b21e855b80852f357.jpg",
+    "careDifficulty": "Easy",
+    "description": "The ZZ plant is almost indestructible, tolerating low light and neglect. Its shiny, dark green leaves bring elegance indoors."
+  },
+  {
+    "name": "Rubber Plant",
+    "category": "Indoor",
+    "price": 38.00,
+    "image": "https://i.pinimg.com/736x/57/d6/32/57d632b6c0373ba40bcd8f2062eccacb.jpg",
+    "careDifficulty": "Medium",
+    "description": "A classic indoor plant with large glossy leaves. It needs bright, indirect light and occasional pruning to maintain shape."
+  },
+  {
+    "name": "Calathea Orbifolia",
+    "category": "Indoor",
+    "price": 40.00,
+    "image": "https://i.pinimg.com/736x/f2/d0/74/f2d074ee9355c827774c93189d352906.jpg",
+    "careDifficulty": "Medium",
+    "description": "Admired for its striking patterned leaves, Calathea Orbifolia thrives in humidity. It adds a tropical touch to modern interiors."
+  },
+  {
+    "name": "Bird of Paradise",
+    "category": "Indoor/Outdoor",
+    "price": 50.00,
+    "image": "https://i.pinimg.com/736x/07/65/d0/0765d09e07bb8a7375d4b85a7fb6d0e2.jpg",
+    "careDifficulty": "Hard",
+    "description": "With bold banana-like leaves, this plant grows tall and dramatic. It can also produce striking bird-shaped flowers in the right conditions."
+  }
+]
