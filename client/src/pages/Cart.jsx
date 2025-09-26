@@ -52,7 +52,7 @@ const Cart = () => {
                           </div>
                         </div>
                       </td>
-                      <td>${item.price.toFixed(2)}</td>
+                      <td>₹{item.price.toFixed(2)}</td>
                       <td>
                         <div className="join">
                           <button 
@@ -70,7 +70,7 @@ const Cart = () => {
                           </button>
                         </div>
                       </td>
-                      <td>${(item.price * item.quantity).toFixed(2)}</td>
+                      <td>₹{(item.price * item.quantity).toFixed(2)}</td>
                       <th>
                         <button onClick={() => removeFromCart(item._id)} className="btn btn-ghost btn-xs">
                           <Trash2 size={16} className="text-red-500" />
@@ -93,7 +93,7 @@ const Cart = () => {
                     <div className="space-y-2">
                         <div className="flex justify-between">
                             <p>Subtotal</p>
-                            <p>${cartTotal.toFixed(2)}</p>
+                            <p>₹{cartTotal.toFixed(2)}</p>
                         </div>
                         <div className="flex justify-between">
                             <p>Shipping</p>
@@ -103,7 +103,7 @@ const Cart = () => {
                     <div className="divider my-4"></div>
                     <div className="flex justify-between font-bold text-lg mb-4">
                         <p>Grand Total</p>
-                        <p>${cartTotal.toFixed(2)}</p>
+                        <p>₹{cartTotal.toFixed(2)}</p>
                     </div>
                     <button className="btn btn-primary w-full">
                         <CreditCard className="mr-2" /> Proceed to Checkout

@@ -166,7 +166,7 @@ const Category = () => {
                       <div className="badge badge-outline px-4 py-3">{plant.careDifficulty}</div>
                     </div>
                     <div className="flex justify-between items-center mt-4">
-                      <p className="text-xl font-semibold text-primary">${plant.price.toFixed(2)}</p>
+                      <p className="text-xl font-semibold text-primary">₹{plant.price.toFixed(2)}</p>
                       <button onClick={() => addToCart(plant)} className="btn btn-primary">Add to Cart</button>
                     </div>
                   </div>

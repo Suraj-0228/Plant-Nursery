@@ -2,7 +2,7 @@
   {
     "name": "Tulsi (Holy Basil)",
     "category": "Herbs & Vegetables",
-    "price": 20.0,
+    "price": 200.0,
     "image": "https://i.pinimg.com/1200x/b7/42/66/b74266b9aab9ddc69c27c5f083526657.jpg",
     "careDifficulty": "Easy",
     "description": "Tulsi is a sacred plant in India, used for its medicinal and spiritual value. Thrives in sunlight with regular watering.",
@@ -18,7 +18,7 @@
   {
     "name": "Neem Tree",
     "category": "Outdoor",
-    "price": 50.0,
+    "price": 500.0,
     "image": "https://i.pinimg.com/1200x/1a/49/eb/1a49ebc4afa8eedd05799fa1d4137020.jpg",
     "careDifficulty": "Medium",
     "description": "Known as the 'village pharmacy', Neem offers many medicinal benefits. Grows easily in Indian climates with minimal care.",
@@ -34,7 +34,7 @@
   {
     "name": "Money Plant",
     "category": "Indoor",
-    "price": 30.0,
+    "price": 300.0,
     "image": "https://i.pinimg.com/1200x/10/04/67/1004675e8c5c17f2d9826bc84b97bf18.jpg",
     "careDifficulty": "Easy",
     "description": "A lucky indoor plant said to bring prosperity. Needs indirect light and occasional watering.",
@@ -50,7 +50,7 @@
   {
     "name": "Hibiscus",
     "category": "Flowers",
-    "price": 40.0,
+    "price": 400.0,
     "image": "https://i.pinimg.com/736x/3d/4d/c5/3d4dc56c2fe90ba1d071fca39ae56dff.jpg",
     "careDifficulty": "Medium",
     "description": "Produces large, bright flowers. Common in Indian gardens. Needs sunlight and regular watering.",
@@ -66,7 +66,7 @@
   {
     "name": "Curry Leaf Plant",
     "category": "Herbs & Vegetables",
-    "price": 25.0,
+    "price": 250.0,
     "image": "https://i.pinimg.com/1200x/b0/c5/ef/b0c5ef4fffcc68f55c6567da8b38427b.jpg",
     "careDifficulty": "Easy",
     "description": "Essential in Indian cooking. Grows well in pots with sunlight and moderate watering.",
@@ -82,7 +82,7 @@
   {
     "name": "Marigold",
     "category": "Flowers",
-    "price": 15.0,
+    "price": 850.0,
     "image": "https://i.pinimg.com/736x/b2/27/0a/b2270a8270548722d92450d7c8468941.jpg",
     "careDifficulty": "Easy",
     "description": "Widely used in festivals and rituals. Grows best in full sunlight with minimal care.",
@@ -98,7 +98,7 @@
   {
     "name": "Banana Plant",
     "category": "Outdoor",
-    "price": 60.0,
+    "price": 600.0,
     "image": "https://i.pinimg.com/1200x/ee/a5/8c/eea58c097e87b67eaf5a1c03f1f72afb.jpg",
     "careDifficulty": "Medium",
     "description": "Commonly grown for fruits and leaves. Needs warm climate and regular watering.",
@@ -114,7 +114,7 @@
   {
     "name": "Aloe Vera",
     "category": "Indoor",
-    "price": 35.0,
+    "price": 350.0,
     "image": "https://i.pinimg.com/736x/6a/f6/74/6af674383d2cbc45c986c3e234bf3413.jpg",
     "careDifficulty": "Easy",
     "description": "Medicinal plant with healing properties. Requires sunlight and little water.",
@@ -130,7 +130,7 @@
   {
     "name": "Mint",
     "category": "Herbs & Vegetables",
-    "price": 15.0,
+    "price": 250.0,
     "image": "https://i.pinimg.com/1200x/81/03/fa/8103fa3fce5604144faea9e8d6b64c83.jpg",
     "careDifficulty": "Easy",
     "description": "Mint is a fast-growing herb with refreshing aroma and taste. Commonly used in teas and cooking, it thrives in partial sunlight and moist soil.",
@@ -146,7 +146,7 @@
   {
     "name": "Lavender",
     "category": "Flowers",
-    "price": 25.0,
+    "price": 250.0,
     "image": "https://i.pinimg.com/736x/73/37/c2/7337c2e6b007544a4e754c80a0d5f4ee.jpg",
     "careDifficulty": "Medium",
     "description": "Lavender is known for its fragrant purple flowers and calming aroma. It grows best in sunny spots with well-drained soil.",
@@ -162,7 +162,7 @@
   {
     "name": "Rosemary",
     "category": "Herbs & Vegetables",
-    "price": 22.0,
+    "price": 220.0,
     "image": "https://i.pinimg.com/736x/12/3b/33/123b3336b0193e2de369d3e36b681352.jpg",
     "careDifficulty": "Easy",
     "description": "Rosemary is a woody perennial herb with needle-like leaves. It is widely used in cooking and thrives in sunny, well-drained conditions.",

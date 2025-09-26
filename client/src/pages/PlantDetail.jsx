@@ -71,7 +71,7 @@ const PlantDetail = () => {
           <div className="text-base-content">
             <h1 className="text-5xl font-extrabold mb-2 tracking-tight">{plant.name}</h1>
             <p className="text-lg text-base-content/70 mb-4">{plant.category}</p>
-            <p className="text-4xl text-primary font-semibold mb-6">${plant.price.toFixed(2)}</p>
+            <p className="text-4xl text-primary font-semibold mb-6">₹{plant.price.toFixed(2)}</p>
             <p className="text-lg mb-8 leading-relaxed">{plant.description}</p>
 
             <div className="flex flex-col sm:flex-row gap-4 mb-8">
