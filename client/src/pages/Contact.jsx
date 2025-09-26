@@ -24,7 +24,7 @@ const Contact = () => {
             <div className="space-y-4">
               <div className="flex items-center">
                 <MapPin className="text-primary mr-4" size={24} />
-                <span>7, Sant-Tukaram Society Part-2, Palanpur Jakatnaka, Surat.</span>
+                <span>1427 Willowfen, Court Cedarridge, OR 97405 United States — Fictiona.</span>
               </div>
               <div className="flex items-center">
                 <Mail className="text-primary mr-4" size={24} />

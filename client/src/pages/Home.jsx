@@ -112,8 +112,8 @@ const Home = () => {
           {!loading && !error && (
             <div className="grid grid-cols-1 gap-8 md:grid-cols-2 lg:grid-cols-3">
               {featuredPlants.map(plant => (
-                <div key={plant._id} className="card bg-base-100 shadow-xl">
-                  <figure><img src={plant.image} alt={plant.name} className="h-64 w-full object-cover transform transition duration-500 hover:scale-105" /></figure>
+                <div key={plant._id} className="card bg-base-100 shadow-xl transform transition duration-500 hover:scale-105">
+                  <figure><img src={plant.image} alt={plant.name} className="h-64 w-full object-cover transform transition duration-500 hover:scale-110" /></figure>
                   <div className="card-body">
                     <h2 className="card-title">{plant.name}</h2>
                     <p>{plant.description}</p>

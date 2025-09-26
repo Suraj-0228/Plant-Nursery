@@ -65,7 +65,7 @@ const About = () => {
               <h2 className="text-3xl font-bold mb-4">Visit Our Nursery</h2>
               <div className="flex items-center mb-4">
                 <MapPin className="text-primary mr-3" size={20} />
-                <span>7, Sant-Tukaram Society Part-2, Palanpur Jakatnaka, Surat.</span>
+                <span>1427 Willowfen, Court Cedarridge, OR 97405 United States — Fictiona.</span>
               </div>
               <h3 className="text-2xl font-bold mb-4 mt-8">Hours of Operation</h3>
               <div className="flex items-center">
