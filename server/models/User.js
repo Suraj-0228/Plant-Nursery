@@ -15,15 +15,16 @@ const userSchema = new mongoose.Schema({
     required: true,
     unique: true,
   },
-  password: {
-    type: String,
-    required: true,
-  },
-  wishlist: {
-    type: mongoose.Schema.Types.ObjectId,
-    ref: 'Wishlist',
-  },
-}, { timestamps: true });
+    password: {
+      type: String,
+      required: true,
+    },
+    isAdmin: {
+      type: Boolean,
+      required: true,
+      default: false,
+    },
+  }, { timestamps: true });
 
 const User = mongoose.model('User', userSchema);
 

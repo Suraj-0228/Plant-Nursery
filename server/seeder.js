@@ -10,7 +10,7 @@ mongoose.connect(dbURI, { useNewUrlParser: true, useUnifiedTopology: true });
 
 // Read JSON files
 const users = JSON.parse(fs.readFileSync(path.join(__dirname, '../data/users.json'), 'utf-8'));
-const plants = JSON.parse(fs.readFileSync(path.join(__dirname, '../data/plants.json'), 'utf-8'));
+const plants = JSON.parse(fs.readFileSync(path.join(__dirname, '../data/plants_data.json'), 'utf-8'));
 
 // Import data into DB
 const importData = async () => {
@@ -20,6 +20,19 @@ const importData = async () => {
 
     await User.insertMany(users);
     await Plant.insertMany(plants);
+
+    // Create admin user
+    const adminExists = await User.findOne({ email: 'admin@example.com' });
+    if (!adminExists) {
+      await User.create({
+        fullname: 'Admin User',
+        email: 'admin@example.com',
+        username: 'admin',
+        password: 'adminpassword', // In a real app, you should hash the password
+        isAdmin: true,
+      });
+      console.log('Admin user created!');
+    }
 
     console.log('Data Imported!');
     process.exit();

@@ -40,4 +40,56 @@ const getPlantById = async (req, res) => {
   }
 };
 
-module.exports = { getPlants, getPlantsByCategory, getPlantById };
+const createPlant = async (req, res) => {
+  try {
+    const plant = new Plant(req.body);
+    const newPlant = await plant.save();
+    res.status(201).json(newPlant);
+  } catch (error) {
+    res.status(400).json({ message: error.message });
+  }
+};
+
+// @desc    Update a plant
+// @route   PUT /api/plants/:id
+// @access  Private/Admin
+const updatePlant = async (req, res) => {
+  try {
+    const plant = await Plant.findById(req.params.id);
+
+    if (plant) {
+      plant.name = req.body.name || plant.name;
+      plant.category = req.body.category || plant.category;
+      plant.price = req.body.price || plant.price;
+      plant.description = req.body.description || plant.description;
+      plant.image = req.body.image || plant.image;
+
+      const updatedPlant = await plant.save();
+      res.json(updatedPlant);
+    } else {
+      res.status(404).json({ message: 'Plant not found' });
+    }
+  } catch (error) {
+    res.status(400).json({ message: error.message });
+  }
+};
+
+// @desc    Delete a plant
+// @route   DELETE /api/plants/:id
+// @access  Private/Admin
+const deletePlant = async (req, res) => {
+  try {
+    const plant = await Plant.findById(req.params.id);
+
+    if (plant) {
+      await plant.remove();
+      res.json({ message: 'Plant removed' });
+    } else {
+      res.status(404).json({ message: 'Plant not found' });
+    }
+  } catch (error) {
+    res.status(500).json({ message: 'Server error' });
+  }
+};
+
+module.exports = { getPlants, getPlantsByCategory, getPlantById, createPlant, updatePlant, deletePlant };

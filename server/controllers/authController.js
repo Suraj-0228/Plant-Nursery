@@ -55,6 +55,7 @@ const loginUser = async (req, res) => {
         fullname: user.fullname,
         email: user.email,
         username: user.username,
+        isAdmin: user.isAdmin,
         // token: generateToken(user._id),
       });
     } else {
@@ -67,4 +68,31 @@ const loginUser = async (req, res) => {
   }
 };
 
-module.exports = { registerUser, loginUser };
+const getUsers = async (req, res) => {
+  try {
+    const users = await User.find({});
+    res.json(users);
+  } catch (error) {
+    res.status(500).json({ message: 'Server error' });
+  }
+};
+
+// @desc    Delete user
+// @route   DELETE /api/auth/:id
+// @access  Private/Admin
+const deleteUser = async (req, res) => {
+  try {
+    const user = await User.findById(req.params.id);
+
+    if (user) {
+      await user.remove();
+      res.json({ message: 'User removed' });
+    } else {
+      res.status(404).json({ message: 'User not found' });
+    }
+  } catch (error) {
+    res.status(500).json({ message: 'Server error' });
+  }
+};
+
+module.exports = { registerUser, loginUser, getUsers, deleteUser };

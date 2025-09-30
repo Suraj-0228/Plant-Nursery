@@ -36,7 +36,11 @@ const Login = () => {
       }
 
       login(data);
-      navigate('/');
+      if (data.isAdmin) {
+        navigate('/admin/dashboard', { replace: true });
+      } else {
+        navigate('/', { replace: true });
+      }
 
     } catch (err) {
       setError(err.message);
