@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
-import { User, Mail, Lock } from 'lucide-react';
+import { User, Mail, Lock, Eye, EyeOff } from 'lucide-react';
 
 const Register = () => {
   const [formData, setFormData] = useState({
@@ -11,6 +11,8 @@ const Register = () => {
     confirmPassword: '',
   });
   const [error, setError] = useState(null);
+  const [showPassword, setShowPassword] = useState(false);
+  const [showConfirmPassword, setShowConfirmPassword] = useState(false);
   const navigate = useNavigate();
 
   const handleChange = (e) => {
@@ -65,10 +67,24 @@ const Register = () => {
               <input type="email" name="email" placeholder="Enter Your Email" className="input input-bordered rounded-xl w-full px-5" required onChange={handleChange} />
             </div>
             <div className="relative">
-              <input type="password" name="password" placeholder="Enter Password" className="input input-bordered rounded-xl w-full px-5" required onChange={handleChange} />
+              <input type={showPassword ? 'text' : 'password'} name="password" placeholder="Enter Password" className="input input-bordered rounded-xl w-full px-5" required onChange={handleChange} />
+              <button
+                type="button"
+                className="absolute inset-y-0 right-0 flex items-center px-3 text-gray-500"
+                onClick={() => setShowPassword(!showPassword)}
+              >
+                {showPassword ? <EyeOff /> : <Eye />}
+              </button>
             </div>
             <div className="relative">
-              <input type="password" name="confirmPassword" placeholder="Enter Confirm Password" className="input input-bordered rounded-xl w-full px-5" required onChange={handleChange} />
+              <input type={showConfirmPassword ? 'text' : 'password'} name="confirmPassword" placeholder="Enter Confirm Password" className="input input-bordered rounded-xl w-full px-5" required onChange={handleChange} />
+              <button
+                type="button"
+                className="absolute inset-y-0 right-0 flex items-center px-3 text-gray-500"
+                onClick={() => setShowConfirmPassword(!showConfirmPassword)}
+              >
+                {showConfirmPassword ? <EyeOff /> : <Eye />}
+              </button>
             </div>
             {error && <p className="text-red-500 text-sm text-center">{error}</p>}
             <button type="submit" className="btn btn-primary w-full">Register</button>

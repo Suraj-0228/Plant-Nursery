@@ -11,9 +11,9 @@ const AdminLayout = () => {
   }, []);
 
   return (
-    <div className="flex h-screen">
+    <div className="flex h-screen bg-base-100">
       <AdminSidenav />
-      <main className="flex-grow p-6 bg-base-100">
+      <main className="flex-grow p-6 overflow-auto">
         <Outlet />
       </main>
     </div>

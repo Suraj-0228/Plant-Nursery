@@ -1,0 +1,9 @@
+create admin panel.
+where admin can,
+    - add, edit, and delete plants (fully workable functionality),
+    - manage users (fully workable functionality)
+
+Note: 
+    - do not show any admin related links on client side.
+    - use sidenavbar for admin panel. (not use main navbar)
+    - footer is nor required for the admin panel
