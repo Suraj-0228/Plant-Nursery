@@ -51,7 +51,7 @@ const AdminSidenav = () => {
               </div>
             </div>
           )}
-          <button onClick={handleLogout} className="flex items-center p-2 mt-4 hover:bg-base-300 rounded-md w-full text-left text-error">
+          <button onClick={handleLogout} className="flex items-center p-2 mt-4 hover:bg-base-300 rounded-md w-[10rem] text-left text-error">
             <LogOut className="w-5 h-5" />
             {!isCollapsed && <span className="ml-2">Logout</span>}
           </button>
