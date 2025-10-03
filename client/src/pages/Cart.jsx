@@ -7,6 +7,10 @@ const Cart = () => {
   const { cartItems, removeFromCart, clearCart, updateQuantity } = useContext(CartContext);
 
   const cartTotal = cartItems.reduce((total, item) => total + item.price * item.quantity, 0);
+  const taxRate = 0.10; // 10% tax rate
+  const taxAmount = cartTotal * taxRate;
+  const shippingCost = 0; // Free shipping
+  const grandTotal = cartTotal + taxAmount + shippingCost;
 
   return (
     <div className="bg-base-100 min-h-screen">
@@ -97,13 +101,17 @@ const Cart = () => {
                         </div>
                         <div className="flex justify-between">
                             <p>Shipping</p>
-                            <p className="font-medium">Free</p>
+                            <p className="font-medium">{shippingCost === 0 ? 'Free' : `₹${shippingCost.toFixed(2)}`}</p>
+                        </div>
+                        <div className="flex justify-between">
+                            <p>Tax ({taxRate * 100}%)</p>
+                            <p>₹{taxAmount.toFixed(2)}</p>
                         </div>
                     </div>
                     <div className="divider my-4"></div>
                     <div className="flex justify-between font-bold text-lg mb-4">
                         <p>Grand Total</p>
-                        <p>₹{cartTotal.toFixed(2)}</p>
+                        <p>₹{grandTotal.toFixed(2)}</p>
                     </div>
                     <button className="btn btn-primary w-full">
                         <CreditCard className="mr-2" /> Proceed to Checkout
