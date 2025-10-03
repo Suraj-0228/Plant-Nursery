@@ -95,4 +95,31 @@ const deleteUser = async (req, res) => {
   }
 };
 
-module.exports = { registerUser, loginUser, getUsers, deleteUser };
+const updateUser = async (req, res) => {
+  try {
+    const user = await User.findById(req.params.id);
+
+    if (user) {
+      user.fullname = req.body.fullname || user.fullname;
+      user.email = req.body.email || user.email;
+      user.username = req.body.username || user.username;
+      user.isAdmin = req.body.isAdmin;
+
+      const updatedUser = await user.save();
+
+      res.json({
+        _id: updatedUser._id,
+        fullname: updatedUser.fullname,
+        email: updatedUser.email,
+        username: updatedUser.username,
+        isAdmin: updatedUser.isAdmin,
+      });
+    } else {
+      res.status(404).json({ message: 'User not found' });
+    }
+  } catch (error) {
+    res.status(500).json({ message: 'Server error' });
+  }
+};
+
+module.exports = { registerUser, loginUser, getUsers, deleteUser, updateUser };

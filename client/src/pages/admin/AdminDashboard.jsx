@@ -1,6 +1,8 @@
 import React, { useState, useEffect } from 'react';
 import { Sprout, Users, DollarSign } from 'lucide-react';
 
+import SalesChart from '../../components/SalesChart';
+
 const AdminDashboard = () => {
   const [plantCount, setPlantCount] = useState(0);
   const [userCount, setUserCount] = useState(0);
@@ -56,6 +58,10 @@ const AdminDashboard = () => {
             <p className="text-sm">15% more than last month</p>
           </div>
         </div>
+      </div>
+      <div className="mt-8 bg-base-200 p-4 rounded-lg shadow-md">
+        <h2 className="text-2xl font-bold mb-4">Sales and Earnings</h2>
+        <SalesChart />
       </div>
       <div className="mt-8">
         <h2 className="text-2xl font-bold mb-4">Welcome, Admin!</h2>

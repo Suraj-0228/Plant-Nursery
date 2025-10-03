@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { Plus, Pencil, Trash2, Leaf, LayoutGrid, DollarSign, FileText, Image, Star } from 'lucide-react';
+import { Plus, Edit, Trash2, Leaf, LayoutGrid, DollarSign, FileText, Image, Star } from 'lucide-react';
 
 const ManagePlants = () => {
   const [plants, setPlants] = useState([]);
@@ -93,7 +93,7 @@ const ManagePlants = () => {
                 <td>₹{plant.price}</td>
                 <td>
                   <button className="btn btn-ghost btn-xs" onClick={() => handleEditModal(plant)}>
-                    <Pencil className="w-4 h-4" />
+                    <Edit className="w-4 h-4 text-info" />
                   </button>
                   <button className="btn btn-ghost btn-xs" onClick={() => handleDelete(plant._id)}>
                     <Trash2 className="w-4 h-4 text-error" />
