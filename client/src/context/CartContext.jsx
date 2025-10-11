@@ -1,4 +1,5 @@
-import React, { createContext, useState, useEffect } from 'react';
+import React, { createContext, useState, useEffect, useContext } from 'react';
+import { AuthContext } from './AuthContext';
 
 export const CartContext = createContext();
 
@@ -13,25 +14,30 @@ export const CartProvider = ({ children }) => {
     }
   });
 
+  const { user } = useContext(AuthContext);
+
   useEffect(() => {
     localStorage.setItem('cartItems', JSON.stringify(cartItems));
   }, [cartItems]);
 
   const addToCart = (plant) => {
-    setCartItems(prevItems => {
-      const isItemInCart = prevItems.find(item => item._id === plant._id);
+    if (!user) {
+      alert('Please, Login to Plant Nursery So, You can Add Plants to Your Cart!!');
+      return;
+    }
 
-      if (isItemInCart) {
-        // If item is already in cart, increase quantity
-        return prevItems.map(item =>
-          item._id === plant._id ? { ...item, quantity: item.quantity + 1 } : item
+    const isItemInCart = cartItems.find(item => item._id === plant._id);
+
+    if (isItemInCart) {
+        setCartItems(prevItems =>
+            prevItems.map(item =>
+              item._id === plant._id ? { ...item, quantity: item.quantity + 1 } : item
+            )
         );
-      } else {
-        // If not, add it to the cart with quantity 1
-        alert(`Added ${plant.name} to your cart!`);
-        return [...prevItems, { ...plant, quantity: 1 }];
-      }
-    });
+    } else {
+        alert(`${plant.name} Added to Your Cart.`);
+        setCartItems(prevItems => [...prevItems, { ...plant, quantity: 1 }]);
+    }
   };
 
   const removeFromCart = (plantId) => {

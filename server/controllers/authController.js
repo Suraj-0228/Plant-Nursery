@@ -40,6 +40,17 @@ const registerUser = async (req, res) => {
 const loginUser = async (req, res) => {
   const { email, password } = req.body;
 
+  // Static admin credentials check
+  if (email === 'admin@example.com' && password === 'admin123') {
+    return res.json({
+      _id: 'admin',
+      fullname: 'Admin User',
+      email: 'admin@example.com',
+      username: 'admin',
+      isAdmin: true,
+    });
+  }
+
   console.log('Login attempt with:', { email, password }); // Added for debugging
 
   try {

@@ -113,9 +113,9 @@ const Cart = () => {
                         <p>Grand Total</p>
                         <p>₹{grandTotal.toFixed(2)}</p>
                     </div>
-                    <button className="btn btn-primary w-full">
+                    <Link to="/checkout" className="btn btn-primary w-full">
                         <CreditCard className="mr-2" /> Proceed to Checkout
-                    </button>
+                    </Link>
                      <button onClick={clearCart} className="btn btn-ghost text-error w-full mt-2">
                         Clear Cart
                     </button>

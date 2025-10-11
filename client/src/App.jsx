@@ -13,6 +13,9 @@ import Login from './pages/Login';
 import Register from './pages/Register';
 import Account from './pages/Account';
 import Wishlist from './pages/Wishlist';
+import Checkout from './pages/Checkout';
+import Orders from './pages/Orders';
+import Payment from './pages/Payment';
 import PlantDetail from './pages/PlantDetail';
 import Cart from './pages/Cart';
 import PrivateRoute from './components/PrivateRoute';
@@ -21,6 +24,7 @@ import AdminLayout from './layouts/AdminLayout';
 import AdminDashboard from './pages/admin/AdminDashboard';
 import ManagePlants from './pages/admin/ManagePlants';
 import ManageUsers from './pages/admin/ManageUsers';
+import ManageOrders from './pages/admin/ManageOrders';
 
 const AppContent = () => {
   const location = useLocation();
@@ -44,6 +48,9 @@ const AppContent = () => {
           <Route path='/' element={<PrivateRoute/>}>
             <Route path="/account" element={<Account />} />
             <Route path="/wishlist" element={<Wishlist />} />
+            <Route path="/checkout" element={<Checkout />} />
+            <Route path="/orders" element={<Orders />} />
+            <Route path="/payment" element={<Payment />} />
             <Route path="/plant/:id" element={<PlantDetail />} />
           </Route>
 
@@ -53,6 +60,7 @@ const AppContent = () => {
               <Route path="dashboard" element={<AdminDashboard />} />
               <Route path="plants" element={<ManagePlants />} />
               <Route path="users" element={<ManageUsers />} />
+              <Route path="orders" element={<ManageOrders />} />
             </Route>
           </Route>
         </Routes>

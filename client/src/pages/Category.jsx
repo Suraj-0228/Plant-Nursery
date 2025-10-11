@@ -32,7 +32,7 @@ const Category = () => {
   }, []);
 
   useEffect(() => {
-    let filtered = plants;
+    let filtered = [...plants];
 
     if (category !== 'All') {
       filtered = filtered.filter(plant => plant.category === category);
@@ -56,7 +56,7 @@ const Category = () => {
   const handleAddToWishlist = async (e, plantId) => {
     e.stopPropagation(); // Prevent card click event
     if (!user) {
-      alert('Please login to add items to your wishlist.');
+      alert('Please, Login to Plant Nursery So, You can Add Plants to Your Wishlist!!');
       return;
     }
     try {
@@ -67,7 +67,7 @@ const Category = () => {
         },
         body: JSON.stringify({ plantId, userId: user._id }),
       });
-      alert('Added to wishlist!');
+      alert('Plant Added to Wishlist!');
     } catch (err) {
       console.error('Failed to add to wishlist', err);
       alert('Failed to add to wishlist.');
@@ -82,7 +82,7 @@ const Category = () => {
       <div className="flex flex-col md:flex-row gap-8">
         {/* Sidebar for Filtering */}
         <aside className="w-full md:w-1/4">
-          <div className="p-4 bg-base-200 shadow-lg">
+          <div className="p-4 bg-base-200 shadow-lg rounded-lg">
             <div className="relative mb-6">
               <input 
                 type="text" 

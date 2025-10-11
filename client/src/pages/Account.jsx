@@ -6,6 +6,7 @@ import { User, Heart, MapPin, ShoppingBag, LogOut, Edit } from 'lucide-react';
 const Account = () => {
   const { user, logout, loading } = useContext(AuthContext);
   const [wishlistCount, setWishlistCount] = useState(0);
+  const [orderCount, setOrderCount] = useState(0);
 
   useEffect(() => {
     const fetchWishlist = async () => {
@@ -20,7 +21,22 @@ const Account = () => {
         console.error('Failed to fetch wishlist count', error);
       }
     };
+
+    const fetchOrders = async () => {
+        if (!user) return;
+        try {
+            const res = await fetch(`http://localhost:5000/api/orders/${user._id}`);
+            if (res.ok) {
+                const data = await res.json();
+                setOrderCount(data.data.length);
+            }
+        } catch (error) {
+            console.error('Failed to fetch order count', error);
+        }
+    };
+
     fetchWishlist();
+    fetchOrders();
   }, [user]);
 
   if (loading) {
@@ -60,7 +76,7 @@ const Account = () => {
                 </li>
                 <li>
                   <Link to="/orders" className="flex items-center gap-3 p-3 rounded-lg hover:bg-base-200 transition-colors duration-200">
-                    <ShoppingBag className="w-6 h-6 text-success" /> Order History
+                    <ShoppingBag className="w-6 h-6 text-success" /> Order History <span className="badge badge-primary ml-auto">{orderCount}</span>
                   </Link>
                 </li>
                 <li className="mt-6">
@@ -109,8 +125,7 @@ const Account = () => {
               <div className="bg-base-100 rounded-3xl shadow-xl border border-base-300 p-10 flex flex-col items-center text-center transform hover:scale-105 transition-transform duration-300">
                 <ShoppingBag className="text-success mb-6" size={64} />
                 <h2 className="text-3xl font-bold text-base-content mb-3">Order History</h2>
-                <p className="text-base-content/80 mb-6">You have no past orders.</p>
-                {/* <a className="btn btn-secondary btn-wide">View Orders</a> */}
+                <p className="text-base-content/80 mb-6">You have <span className="font-bold text-primary">{orderCount}</span> past orders.</p>
                 <Link to="/orders" className="btn btn-secondary btn-wide">
                   View Orders
                 </Link>

@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { Sprout, Users, DollarSign } from 'lucide-react';
 
-import SalesChart from '../../components/SalesChart';
+
 
 const AdminDashboard = () => {
   const [plantCount, setPlantCount] = useState(0);
@@ -59,10 +59,7 @@ const AdminDashboard = () => {
           </div>
         </div>
       </div>
-      <div className="mt-8 bg-base-200 p-4 rounded-lg shadow-md">
-        <h2 className="text-2xl font-bold mb-4">Sales and Earnings</h2>
-        <SalesChart />
-      </div>
+
       <div className="mt-8">
         <h2 className="text-2xl font-bold mb-4">Welcome, Admin!</h2>
         <p>Here you can manage your plants and users. Use the sidebar to navigate through the different sections.</p>

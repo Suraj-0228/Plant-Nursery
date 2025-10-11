@@ -5,6 +5,8 @@ const mongoose = require('mongoose');
 const authRoutes = require('./routes/auth');
 const plantRoutes = require('./routes/plants');
 const wishlistRoutes = require('./routes/wishlist');
+const orderRoutes = require('./routes/orders');
+const userRoutes = require('./routes/users');
 
 const app = express();
 const port = process.env.PORT || 5000;
@@ -31,6 +33,8 @@ mongoose.connect(dbURI, { useNewUrlParser: true, useUnifiedTopology: true })
 app.use('/api/auth', authRoutes);
 app.use('/api/plants', plantRoutes);
 app.use('/api/wishlist', wishlistRoutes);
+app.use('/api/orders', orderRoutes);
+app.use('/api/users', userRoutes);
 
 app.get('/', (req, res) => {
   res.send('Plant Nursery Server is running!');

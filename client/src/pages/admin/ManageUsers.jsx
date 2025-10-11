@@ -50,6 +50,8 @@ const ManageUsers = () => {
               <th>Name</th>
               <th>Email</th>
               <th>Username</th>
+              <th>Phone</th>
+              <th>Address</th>
               <th>Is Admin</th>
               <th>Actions</th>
             </tr>
@@ -61,6 +63,8 @@ const ManageUsers = () => {
                 <td>{user.fullname}</td>
                 <td>{user.email}</td>
                 <td>{user.username}</td>
+                <td>{user.phone}</td>
+                <td>{user.address ? `${user.address.street}, ${user.address.city}, ${user.address.state} ${user.address.zip}, ${user.address.country}` : 'N/A'}</td>
                 <td>{user.isAdmin ? <span className="badge badge-success">Yes</span> : <span className="badge badge-ghost">No</span>}</td>
                 <td className='flex'>
                   <button className="btn btn-ghost btn-xs" onClick={() => handleEdit(user)}>
@@ -112,6 +116,72 @@ const ManageUsers = () => {
                   className="input input-bordered rounded-xl w-full"
                   value={currentUser.username}
                   onChange={(e) => setCurrentUser({ ...currentUser, username: e.target.value })}
+                />
+              </div>
+              <div className="form-control my-2 flex flex-col">
+                <label className="label">
+                  <span className="label-text">Phone</span>
+                </label>
+                <input
+                  type="text"
+                  className="input input-bordered rounded-xl w-full"
+                  value={currentUser.phone || ''}
+                  onChange={(e) => setCurrentUser({ ...currentUser, phone: e.target.value })}
+                />
+              </div>
+              <div className="form-control my-2 flex flex-col">
+                <label className="label">
+                  <span className="label-text">Street</span>
+                </label>
+                <input
+                  type="text"
+                  className="input input-bordered rounded-xl w-full"
+                  value={currentUser.address?.street || ''}
+                  onChange={(e) => setCurrentUser({ ...currentUser, address: { ...currentUser.address, street: e.target.value } })}
+                />
+              </div>
+              <div className="form-control my-2 flex flex-col">
+                <label className="label">
+                  <span className="label-text">City</span>
+                </label>
+                <input
+                  type="text"
+                  className="input input-bordered rounded-xl w-full"
+                  value={currentUser.address?.city || ''}
+                  onChange={(e) => setCurrentUser({ ...currentUser, address: { ...currentUser.address, city: e.target.value } })}
+                />
+              </div>
+              <div className="form-control my-2 flex flex-col">
+                <label className="label">
+                  <span className="label-text">State</span>
+                </label>
+                <input
+                  type="text"
+                  className="input input-bordered rounded-xl w-full"
+                  value={currentUser.address?.state || ''}
+                  onChange={(e) => setCurrentUser({ ...currentUser, address: { ...currentUser.address, state: e.target.value } })}
+                />
+              </div>
+              <div className="form-control my-2 flex flex-col">
+                <label className="label">
+                  <span className="label-text">ZIP Code</span>
+                </label>
+                <input
+                  type="text"
+                  className="input input-bordered rounded-xl w-full"
+                  value={currentUser.address?.zip || ''}
+                  onChange={(e) => setCurrentUser({ ...currentUser, address: { ...currentUser.address, zip: e.target.value } })}
+                />
+              </div>
+              <div className="form-control my-2 flex flex-col">
+                <label className="label">
+                  <span className="label-text">Country</span>
+                </label>
+                <input
+                  type="text"
+                  className="input input-bordered rounded-xl w-full"
+                  value={currentUser.address?.country || ''}
+                  onChange={(e) => setCurrentUser({ ...currentUser, address: { ...currentUser.address, country: e.target.value } })}
                 />
               </div>
               <div className="form-control my-2 flex flex-col">
