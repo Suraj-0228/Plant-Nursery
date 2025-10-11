@@ -7,7 +7,7 @@ const Cart = () => {
   const { cartItems, removeFromCart, clearCart, updateQuantity } = useContext(CartContext);
 
   const cartTotal = cartItems.reduce((total, item) => total + item.price * item.quantity, 0);
-  const taxRate = 0.10; // 10% tax rate
+  const taxRate = 0.05; // 10% tax rate
   const taxAmount = cartTotal * taxRate;
   const shippingCost = 0; // Free shipping
   const grandTotal = cartTotal + taxAmount + shippingCost;

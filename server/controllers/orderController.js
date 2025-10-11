@@ -24,7 +24,7 @@ exports.createOrder = async (req, res) => {
       billingAddress,
       paymentMethod,
       paymentStatus: 'Paid', // Mocking payment status
-      orderStatus: 'Processing',
+      orderStatus: 'Confirmed',
     });
 
     await order.save();
