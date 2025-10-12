@@ -28,8 +28,8 @@ const Login = () => {
 
     if (!formData.password) {
       newErrors.password = 'Password is required';
-    } else if (formData.password.length < 6 || formData.password.length > 12) {
-      newErrors.password = 'Password must be between 6 and 12 characters';
+    } else if (formData.password.length < 6 || formData.password.length > 18) {
+      newErrors.password = 'Password must be between 6 and 18 characters';
     }
 
     if (!rememberMe) {
