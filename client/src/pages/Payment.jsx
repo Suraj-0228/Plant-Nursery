@@ -156,7 +156,7 @@ const Payment = () => {
                     <div className="space-y-4">
                         <h3 className="text-lg font-semibold">UPI Details:</h3>
                         <div className="flex justify-center mb-4">
-                            <img src="https://i.imgur.com/g2yDvGZ.png" alt="UPI QR Code" className="w-48 h-48" />
+                            <img src="src/assets/QR Scanner.jpg" alt="UPI QR Code" className="w-48 h-48" />
                         </div>
                         <div className="form-control w-full">
                             <label htmlFor="upiId" className="label"><span className="label-text font-medium">UPI ID</span></label>
