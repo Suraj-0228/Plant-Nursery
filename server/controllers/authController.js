@@ -41,7 +41,7 @@ const loginUser = async (req, res) => {
   const { email, password } = req.body;
 
   // Static admin credentials check
-  if (email === 'admin@example.com' && password === 'admin123') {
+  if (email === 'admin@example.com' && password === 'adminPassword') {
     return res.json({
       _id: 'admin',
       fullname: 'Admin User',

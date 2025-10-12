@@ -21,19 +21,6 @@ const importData = async () => {
     await User.insertMany(users);
     await Plant.insertMany(plants);
 
-    // Create admin user
-    const adminExists = await User.findOne({ email: 'admin@example.com' });
-    if (!adminExists) {
-      await User.create({
-        fullname: 'Admin User',
-        email: 'admin@example.com',
-        username: 'admin',
-        password: 'adminpassword', // In a real app, you should hash the password
-        isAdmin: true,
-      });
-      console.log('Admin user created!');
-    }
-
     console.log('Data Imported!');
     process.exit();
   } catch (error) {
