@@ -27,7 +27,7 @@ const Payment = () => {
   }
 
   const cartTotal = cartItems.reduce((total, item) => total + item.price * item.quantity, 0);
-  const taxRate = 0.10;
+  const taxRate = 0.05;
   const taxAmount = cartTotal * taxRate;
   const shippingCost = 0;
   const codCharges = 50; // Example COD charges
@@ -65,7 +65,7 @@ const Payment = () => {
     setErrors({});
 
     if (!user) {
-      alert('You must be logged in to place an order.');
+      alert('You Must be Logged In to Place an Order!!!');
       navigate('/login');
       return;
     }
@@ -89,11 +89,11 @@ const Payment = () => {
         clearCart();
         navigate('/orders');
       } else {
-        alert('Failed to place order.');
+        alert('Failed to Place Order!!!');
       }
     } catch (error) {
-      console.error('Order submission error:', error);
-      alert('An error occurred while placing the order.');
+      console.error('Order Submission Error: ', error);
+      alert('An Error Occurred while Placing the Order!!');
     }
   };
 

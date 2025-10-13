@@ -41,12 +41,20 @@ const getPlantById = async (req, res) => {
 };
 
 const createPlant = async (req, res) => {
-  console.log('Request Body:', req.body);
+  const { name, category, price, image, careDifficulty, description } = req.body;
+
   try {
-    const plant = new Plant(req.body);
-    const newPlant = await plant.save();
-    console.log('New Plant:', newPlant);
-    res.status(201).json(newPlant);
+    const newPlant = new Plant({
+      name,
+      category,
+      price,
+      image,
+      careDifficulty,
+      description,
+    });
+
+    const savedPlant = await newPlant.save();
+    res.status(201).json(savedPlant);
   } catch (error) {
     res.status(400).json({ message: error.message });
   }
@@ -56,15 +64,18 @@ const createPlant = async (req, res) => {
 // @route   PUT /api/plants/:id
 // @access  Private/Admin
 const updatePlant = async (req, res) => {
+  const { name, category, price, image, careDifficulty, description } = req.body;
+
   try {
     const plant = await Plant.findById(req.params.id);
 
     if (plant) {
-      plant.name = req.body.name || plant.name;
-      plant.category = req.body.category || plant.category;
-      plant.price = req.body.price || plant.price;
-      plant.description = req.body.description || plant.description;
-      plant.image = req.body.image || plant.image;
+      plant.name = name || plant.name;
+      plant.category = category || plant.category;
+      plant.price = price || plant.price;
+      plant.description = description || plant.description;
+      plant.image = image || plant.image;
+      plant.careDifficulty = careDifficulty || plant.careDifficulty;
 
       const updatedPlant = await plant.save();
       res.json(updatedPlant);
