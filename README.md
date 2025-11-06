@@ -121,6 +121,42 @@ Represents a user's wishlist of plants.
 | `createdAt` | Date | The timestamp when the wishlist was created. | Yes (auto-generated) |
 | `updatedAt` | Date | The timestamp when the wishlist was last updated. | Yes (auto-generated) |
 
+---
+
+## Order
+
+Represents a customer's order in the system.
+
+| Field | Type | Description | Required |
+| :--- | :--- | :--- | :--- |
+| `user` | ObjectId | Reference to the User who placed the order. | Yes |
+| `items` | Array | An array of objects, each representing a plant in the order. | Yes |
+| `items.plant` | ObjectId | Reference to the Plant being ordered. | Yes |
+| `items.quantity` | Number | The quantity of the specific plant being ordered. | Yes |
+| `totalAmount` | Number | The total cost of the order. | Yes |
+| `shippingAddress` | Object | The address where the order will be shipped. | Yes |
+| `shippingAddress.fullName` | String | Full name of the recipient. | Yes |
+| `shippingAddress.email`| String | Email of the recipient. | Yes |
+| `shippingAddress.phone`| String | Phone number of the recipient. | Yes |
+| `shippingAddress.street` | String | Street address. | Yes |
+| `shippingAddress.city` | String | City of the shipping address. | Yes |
+| `shippingAddress.state` | String | State of the shipping address. | Yes |
+| `shippingAddress.zip` | String | Zip code of the shipping address. | Yes |
+| `shippingAddress.country`| String | Country of the shipping address. | Yes |
+| `billingAddress` | Object | The address for billing purposes. | Yes |
+| `billingAddress.fullName` | String | Full name for billing. | Yes |
+| `billingAddress.email` | String | Email for billing. | Yes |
+| `billingAddress.phone` | String | Phone number for billing. | Yes |
+| `billingAddress.street` | String | Street address for billing. | Yes |
+| `billingAddress.city` | String | City for billing. | Yes |
+| `billingAddress.state` | String | State for billing. | Yes |
+| `billingAddress.zip` | String | Zip code for billing. | Yes |
+| `billingAddress.country` | String | Country for billing. | Yes |
+| `paymentMethod` | String | The method of payment. Can be 'Card', 'UPI', or 'COD'. | Yes |
+| `paymentStatus` | String | The status of the payment. Defaults to 'Pending'. | Yes |
+| `orderStatus` | String | The status of the order. Can be 'Confirmed', 'Processing', 'Shipped', 'Delivered', or 'Cancelled'. Defaults to 'Confirmed'. | Yes |
+| `orderDate` | Date | The date the order was placed. Defaults to the current date and time. | No |
+
 
 ### 3.4. Interface Design (Screenshots)
 
