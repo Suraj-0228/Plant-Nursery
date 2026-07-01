@@ -1,8 +1,9 @@
 import React, { useState, useEffect, useContext } from 'react';
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 import { AuthContext } from '../context/AuthContext';
 import { CartContext } from '../context/CartContext';
-import { Search } from 'lucide-react';
+import { useModal } from '../context/ModalContext';
+import { Search, Heart, ShoppingCart, SlidersHorizontal, ArrowUpDown } from 'lucide-react';
 
 const Category = () => {
   const [plants, setPlants] = useState([]);
@@ -14,11 +15,18 @@ const Category = () => {
   const [error, setError] = useState(null);
   const { user } = useContext(AuthContext);
   const { addToCart } = useContext(CartContext);
+  const { showPopup } = useModal();
+  const navigate = useNavigate();
+  const [currentPage, setCurrentPage] = useState(1);
+  const plantsPerPage = 6;
 
   useEffect(() => {
     const fetchPlants = async () => {
       try {
         const res = await fetch('http://localhost:5000/api/plants');
+        if (!res.ok) {
+          throw new Error('Failed to fetch specimens');
+        }
         const data = await res.json();
         setPlants(data);
         setFilteredPlants(data);
@@ -51,132 +59,245 @@ const Category = () => {
     }
 
     setFilteredPlants(filtered);
+    setCurrentPage(1);
   }, [category, sort, searchTerm, plants]);
 
   const handleAddToWishlist = async (e, plantId) => {
-    e.stopPropagation(); // Prevent card click event
+    e.stopPropagation(); // Prevent card navigation
     if (!user) {
-      alert('Please, Login to Plant Nursery So, You can Add Plants to Your Wishlist!!');
+      showPopup({
+        title: 'Authentication Required',
+        message: 'Please log in to add plants to your wishlist!',
+        type: 'error'
+      });
       return;
     }
     try {
-      await fetch('http://localhost:5000/api/wishlist', {
+      const res = await fetch('http://localhost:5000/api/wishlist', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
         },
         body: JSON.stringify({ plantId, userId: user._id }),
       });
-      alert('Plant Added to Wishlist!');
+      if (!res.ok) throw new Error('Wishlist failure');
+      showPopup({
+        title: 'Added to Wishlist',
+        message: 'The selected plant specimen has been saved to your wishlist.',
+        type: 'success'
+      });
     } catch (err) {
       console.error('Failed to add to wishlist', err);
-      alert('Failed to add to wishlist.');
+      showPopup({
+        title: 'Error',
+        message: 'Failed to add the specimen to your wishlist.',
+        type: 'error'
+      });
     }
   };
 
-  if (loading) return <div className="text-center py-16">Loading...</div>;
-  if (error) return <div className="text-center py-16 text-red-500">Error: {error}</div>;
+  if (loading) return (
+    <div className="flex items-center justify-center min-h-screen bg-base-100">
+      <span className="loading loading-spinner loading-lg text-primary"></span>
+    </div>
+  );
+
+  if (error) return (
+    <div className="text-center py-24 text-error bg-base-100 font-semibold">
+      Error fetching specimens: {error}
+    </div>
+  );
 
   return (
-    <div className="container mx-auto px-4 py-16 sm:px-6 lg:px-8">
-      <div className="flex flex-col md:flex-row gap-8">
-        {/* Sidebar for Filtering */}
-        <aside className="w-full md:w-1/4">
-          <div className="p-4 bg-base-200 shadow-lg rounded-lg">
-            <div className="relative mb-6">
+    <div className="bg-base-100 min-h-screen py-16 px-4 sm:px-6 lg:px-8 transition-colors duration-300 relative overflow-hidden">
+      
+      {/* Decorative Orbs */}
+      <div className="absolute top-10 left-10 w-96 h-96 rounded-full bg-primary/5 blur-[120px] pointer-events-none"></div>
+
+      <div className="mx-auto max-w-7xl">
+        {/* Header */}
+        <header className="mb-12 space-y-3">
+          <span className="text-primary font-bold text-sm tracking-wider uppercase">Online Showroom</span>
+          <h1 className="text-4xl font-extrabold tracking-tight text-base-content font-heading sm:text-5xl">Specimen Catalog</h1>
+          <p className="text-base-content/75 text-sm max-w-xl">
+            Explore our premium collection of foliage, flowers, and medicinal herbs. Filter and search to find your perfect green companion.
+          </p>
+        </header>
+
+        {/* Filter, Search & Sort Panel - Full Width on Top */}
+        <div className="p-6 rounded-[24px] border border-base-300/40 bg-base-200/20 glass-card mb-10 space-y-6">
+          <div className="flex flex-col md:flex-row gap-4 items-center justify-between">
+            
+            {/* Search Input */}
+            <div className="w-full md:max-w-md relative">
               <input 
                 type="text" 
-                placeholder="Search for a plant..." 
-                className="input input-bordered w-full max-w-xs pl-10" 
+                placeholder="Search specimens..." 
+                className="input input-bordered w-full pl-11 pr-4 rounded-xl glass-input text-sm h-11" 
                 value={searchTerm}
                 onChange={(e) => setSearchTerm(e.target.value)}
               />
-              <div className="absolute inset-y-0 left-0 flex items-center pl-3">
-                <Search className="h-5 w-5 text-gray-400" />
+              <div className="absolute inset-y-0 left-4 flex items-center pointer-events-none">
+                <Search className="h-5 w-5 text-base-content/40" />
               </div>
             </div>
 
-            <div className="collapse collapse-arrow bg-base-100 mb-4">
-              <input type="checkbox" defaultChecked />
-              <div className="collapse-title text-xl font-medium">
-                Category
-              </div>
-              <div className="collapse-content">
-                <div className="form-control flex flex-col gap-2">
-                  {['All', 'Indoor', 'Outdoor', 'Herbs & Vegetables', 'Flowers'].map(cat => (
-                    <label key={cat} className="label cursor-pointer">
-                      <input 
-                        type="radio" 
-                        name="category" 
-                        className="radio radio-primary" 
-                        checked={category === cat}
-                        onChange={() => setCategory(cat)}
-                      />
-                      <span className="label-text">{cat}</span>
-                    </label>
-                  ))}
-                </div>
-              </div>
+            {/* Sort Options */}
+            <div className="w-full md:w-auto flex items-center gap-2">
+              <ArrowUpDown className="h-4.5 w-4.5 text-primary shrink-0" />
+              <select 
+                className="select select-bordered rounded-xl w-full md:w-56 glass-input text-sm h-11" 
+                onChange={(e) => setSort(e.target.value)} 
+                value={sort}
+              >
+                <option value="price" disabled>Select price sort</option>
+                <option value="low-to-high">Price: Low to High</option>
+                <option value="high-to-low">Price: High to Low</option>
+              </select>
             </div>
 
-            <div className="collapse collapse-arrow bg-base-100">
-              <input type="checkbox" defaultChecked />
-              <div className="collapse-title text-xl font-medium">
-                Sort by
+          </div>
+
+          {/* Horizontal Category Filters */}
+          <div className="pt-4 border-t border-base-300/40">
+            <div className="flex flex-wrap items-center gap-2">
+              <div className="flex items-center gap-1.5 text-base-content/95 mr-2">
+                <SlidersHorizontal className="h-4.5 w-4.5 text-primary" />
+                <span className="text-xs font-bold uppercase tracking-wider">Categories:</span>
               </div>
-              <div className="collapse-content">
-                <select className="select select-bordered rounded-xl w-full max-w-xs" onChange={(e) => setSort(e.target.value)} value={sort}>
-                  <option value="price" disabled>Price</option>
-                  <option value="low-to-high">Low to High</option>
-                  <option value="high-to-low">High to Low</option>
-                </select>
-              </div>
+              {['All', 'Indoor', 'Outdoor', 'Herbs & Vegetables', 'Flowers'].map(cat => (
+                <button
+                  key={cat}
+                  onClick={() => setCategory(cat)}
+                  className={`btn text-xs h-10 min-h-0 rounded-full transition-all duration-300 font-bold px-5 border ${
+                    category === cat 
+                      ? 'btn-primary border-transparent shadow-md' 
+                      : 'btn-ghost border-base-300 hover:bg-primary/10 hover:text-primary'
+                  }`}
+                >
+                  {cat}
+                </button>
+              ))}
             </div>
           </div>
-        </aside>
+        </div>
 
-        {/* Plant Grid */}
-        <main className="w-full md:w-3/4">
-          <div className="grid grid-cols-1 gap-8 sm:grid-cols-2 lg:grid-cols-3">
+        {/* Plant Specimen Grid */}
+        <main className="w-full">
             {filteredPlants.length > 0 ? (
-              filteredPlants.map((plant) => (
-                <div key={plant._id} className="card bg-base-100 shadow-xl rounded-lg overflow-hidden group transform transition duration-500 hover:scale-105">
-                  <figure className="relative h-64 w-full">
-                    <Link to={`/plant/${plant._id}`}>
-                      <img src={plant.image} alt={plant.name} className="h-full w-full object-cover transition-transform duration-500 group-hover:scale-105" />
-                    </Link>
-                    <div className="absolute top-4 right-4 z-10">
-                      <button 
-                        onClick={(e) => handleAddToWishlist(e, plant._id)} 
-                        className="btn btn-circle btn-ghost bg-white/70 hover:bg-white text-red-500"
-                        aria-label="Add to Wishlist"
-                      >
-                        <svg xmlns="http://www.w3.org/2000/svg" className="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M4.318 6.318a4.5 4.5 0 000 6.364L12 20.364l7.682-7.682a4.5 4.5 0 00-6.364-6.364L12 7.636l-1.318-1.318a4.5 4.5 0 00-6.364 0z" /></svg>
-                      </button>
+              <div>
+                <div className="grid grid-cols-1 gap-8 sm:grid-cols-2 lg:grid-cols-3">
+                  {filteredPlants.slice((currentPage - 1) * plantsPerPage, currentPage * plantsPerPage).map((plant) => (
+                  <div 
+                    key={plant._id} 
+                    className="premium-card group cursor-pointer flex flex-col h-full shadow-md"
+                    onClick={() => navigate(`/plant/${plant._id}`)}
+                  >
+                    {/* Image Area */}
+                    <figure className="relative h-64 w-full overflow-hidden">
+                      <img 
+                        src={plant.image} 
+                        alt={plant.name} 
+                        className="h-full w-full object-cover transition-transform duration-700 group-hover:scale-105" 
+                      />
+                      <div className="absolute top-4 right-4 z-10">
+                        <button 
+                          onClick={(e) => handleAddToWishlist(e, plant._id)} 
+                          className="btn btn-circle btn-sm bg-white/80 hover:bg-white text-red-500 border-none shadow-md hover:scale-110 transition-all duration-300 group"
+                          aria-label="Add to Wishlist"
+                        >
+                          <Heart className="h-4.5 w-4.5 fill-none group-hover:fill-current transition-colors" />
+                        </button>
+                      </div>
+                      <div className="absolute top-4 left-4 z-10">
+                        <span className="badge badge-primary border-none shadow-sm font-bold text-sm px-3.5 py-2.5">
+                          {plant.category}
+                        </span>
+                      </div>
+                    </figure>
+
+                    {/* Content Details */}
+                    <div className="p-6 bg-base-100 flex-grow flex flex-col justify-between gap-4">
+                      <div className="space-y-1">
+                        <div className="flex justify-between items-center">
+                          <span className="text-primary/75 text-sm font-semibold tracking-wider uppercase">Care Specimen</span>
+                          <span className={`badge badge-outline text-sm font-semibold px-3 py-2.5 ${
+                            plant.careDifficulty === 'Easy' ? 'border-emerald-500 text-emerald-500' :
+                            plant.careDifficulty === 'Medium' ? 'border-amber-500 text-amber-500' : 'border-rose-500 text-rose-500'
+                          }`}>
+                            {plant.careDifficulty}
+                          </span>
+                        </div>
+                        <h2 className="text-xl font-bold text-base-content font-heading group-hover:text-primary transition-colors duration-200 mt-2">{plant.name}</h2>
+                        <p className="text-base-content/75 text-sm leading-relaxed line-clamp-2 mt-1">{plant.description}</p>
+                      </div>
+
+                      <div className="flex justify-between items-center pt-4 border-t border-base-200">
+                        <p className="text-2xl font-bold text-primary font-heading">₹{plant.price.toFixed(2)}</p>
+                        <button 
+                          onClick={(e) => { e.stopPropagation(); addToCart(plant); }} 
+                          className="btn btn-primary btn-sm rounded-xl btn-premium px-4 py-2 font-semibold flex items-center gap-1.5 shadow-md"
+                        >
+                          <ShoppingCart className="h-4 w-4" /> Add
+                        </button>
+                      </div>
                     </div>
-                    <div className="absolute bottom-0 left-0 right-0 bg-gradient-to-t from-black/60 to-transparent p-4">
-                      <Link to={`/plant/${plant._id}`}>
-                        <h2 className="text-white text-2xl font-bold">{plant.name}</h2>
-                      </Link>
-                    </div>
-                  </figure>
-                  <div className="p-4 bg-base-200">
-                    <div className="flex justify-between items-center mb-2">
-                      <p className="text-sm text-base-content/70">{plant.category}</p>
-                      <div className="badge badge-outline px-4 py-3">{plant.careDifficulty}</div>
-                    </div>
-                    <div className="flex justify-between items-center mt-4">
-                      <p className="text-xl font-semibold text-primary">₹{plant.price.toFixed(2)}</p>
-                      <button onClick={() => addToCart(plant)} className="btn btn-primary">Add to Cart</button>
-                    </div>
+
                   </div>
+                ))}
                 </div>
-              ))
+
+                {/* Pagination Controls */}
+                {Math.ceil(filteredPlants.length / plantsPerPage) > 1 && (
+                  <div className="flex justify-center items-center gap-4 mt-12 pt-4">
+                    <button 
+                      disabled={currentPage === 1}
+                      onClick={() => {
+                        setCurrentPage(prev => Math.max(prev - 1, 1));
+                        window.scrollTo({ top: 0, behavior: 'smooth' });
+                      }}
+                      className="btn btn-outline rounded-xl px-4 py-2 border border-base-300 disabled:opacity-40"
+                    >
+                      Previous
+                    </button>
+                    
+                    {Array.from({ length: Math.ceil(filteredPlants.length / plantsPerPage) }, (_, i) => i + 1).map(page => (
+                      <button
+                        key={page}
+                        onClick={() => {
+                          setCurrentPage(page);
+                          window.scrollTo({ top: 0, behavior: 'smooth' });
+                        }}
+                        className={`btn rounded-xl w-9 h-9 text-md font-bold transition-all duration-300 ${
+                          currentPage === page 
+                            ? 'btn-primary shadow-md' 
+                            : 'btn-ghost hover:bg-primary/10 hover:text-primary'
+                        }`}
+                      >
+                        {page}
+                      </button>
+                    ))}
+
+                    <button 
+                      disabled={currentPage === Math.ceil(filteredPlants.length / plantsPerPage)}
+                      onClick={() => {
+                        setCurrentPage(prev => Math.min(prev + 1, Math.ceil(filteredPlants.length / plantsPerPage)));
+                        window.scrollTo({ top: 0, behavior: 'smooth' });
+                      }}
+                      className="btn btn-outline rounded-xl px-4 py-2 border border-base-300 disabled:opacity-40"
+                    >
+                      Next
+                    </button>
+                  </div>
+                )}
+              </div>
             ) : (
-              <p>No plants found.</p>
+              <div className="text-center py-20 rounded-[24px] border border-base-300/40 glass-card">
+                <p className="text-base-content/60 text-lg font-medium">No plant specimens found matching your criteria.</p>
+              </div>
             )}
-          </div>
-        </main>
+          </main>
+
       </div>
     </div>
   );

@@ -1,4 +1,5 @@
 const User = require('../models/User');
+const bcrypt = require('bcryptjs');
 
 // @desc    Register a new user
 // @route   POST /api/auth/register
@@ -40,41 +41,29 @@ const registerUser = async (req, res) => {
 const loginUser = async (req, res) => {
   const { email, password } = req.body;
 
-  // Static admin credentials check
-  if (email === 'admin@example.com' && password === 'adminPassword') {
-    return res.json({
-      _id: 'admin',
-      fullname: 'Admin User',
-      email: 'admin@example.com',
-      username: 'admin',
-      isAdmin: true,
-    });
-  }
-
-  console.log('Login attempt with:', { email, password }); // Added for debugging
+  console.log('Login attempt with:', { email }); // Log without password for security
 
   try {
     const user = await User.findOne({ email });
 
-    console.log('User found in DB:', user); // Added for debugging
-
-    // In a real app, you would compare the password with the hashed password
-    if (user && (password === user.password)) {
-      console.log('Password comparison successful'); // Added for debugging
+    if (user && (await bcrypt.compare(password, user.password))) {
+      if (user.isBlocked) {
+        return res.status(403).json({ message: 'Your account has been blocked by an administrator' });
+      }
+      console.log('Password comparison successful');
       res.json({
         _id: user._id,
         fullname: user.fullname,
         email: user.email,
         username: user.username,
         isAdmin: user.isAdmin,
-        // token: generateToken(user._id),
       });
     } else {
-      console.log('Password comparison failed'); // Added for debugging
+      console.log('Password comparison failed');
       res.status(401).json({ message: 'Invalid email or password' });
     }
   } catch (error) {
-    console.error('Error during login:', error); // Added for debugging
+    console.error('Error during login:', error);
     res.status(500).json({ message: 'Server error' });
   }
 };
@@ -114,7 +103,8 @@ const updateUser = async (req, res) => {
       user.fullname = req.body.fullname || user.fullname;
       user.email = req.body.email || user.email;
       user.username = req.body.username || user.username;
-      user.isAdmin = req.body.isAdmin;
+      user.isAdmin = req.body.isAdmin !== undefined ? req.body.isAdmin : user.isAdmin;
+      user.isBlocked = req.body.isBlocked !== undefined ? req.body.isBlocked : user.isBlocked;
 
       const updatedUser = await user.save();
 
@@ -124,6 +114,7 @@ const updateUser = async (req, res) => {
         email: updatedUser.email,
         username: updatedUser.username,
         isAdmin: updatedUser.isAdmin,
+        isBlocked: updatedUser.isBlocked,
       });
     } else {
       res.status(404).json({ message: 'User not found' });

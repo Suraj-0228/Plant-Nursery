@@ -1,7 +1,8 @@
 const express = require('express');
 const router = express.Router();
-const { updateUserProfile } = require('../controllers/userController');
+const { updateUserProfile, changeUserPassword, getUserProfile } = require('../controllers/userController');
 
-router.route('/:id').put(updateUserProfile);
+router.route('/:id').get(getUserProfile).put(updateUserProfile);
+router.route('/:id/password').put(changeUserPassword);
 
 module.exports = router;

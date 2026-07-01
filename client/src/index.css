@@ -1,0 +1,244 @@
+/* Premium Layout Styles & Custom Theme Overrides */
+
+/* Premium Light Theme Override */
+html[data-theme="premium-light"],
+:root {
+  --color-primary: #124c36 !important;
+  --color-primary-content: #ffffff !important;
+  
+  --color-secondary: #e8edea !important;
+  --color-secondary-content: #124c36 !important;
+  
+  --color-accent: #d4af37 !important;
+  --color-accent-content: #124c36 !important;
+  
+  --color-base-100: #fbfbfa !important; /* soft alabaster */
+  --color-base-200: #f3f5f3 !important; /* soft sage-tinted light grey */
+  --color-base-300: #e2e8e4 !important; /* border/divider */
+  --color-base-content: #162a21 !important; /* deep forest charcoal */
+  
+  --color-info: #0284c7 !important;
+  --color-success: #15803d !important;
+  --color-warning: #b45309 !important;
+  --color-error: #b91c1c !important;
+
+  --glass-bg: rgba(255, 255, 255, 0.7) !important;
+  --glass-border: rgba(18, 76, 54, 0.08) !important;
+  --glass-shadow: 0 8px 32px 0 rgba(18, 76, 54, 0.04) !important;
+}
+
+/* Premium Dark Theme Override */
+html[data-theme="premium-dark"] {
+  --color-primary: #10b981 !important; /* glowing emerald */
+  --color-primary-content: #07110e !important;
+  
+  --color-secondary: #0d1e19 !important;
+  --color-secondary-content: #f0f7f3 !important;
+  
+  --color-accent: #d4af37 !important; /* gold */
+  --color-accent-content: #07110e !important;
+  
+  --color-base-100: #07110e !important; /* deep obsidian emerald */
+  --color-base-200: #0d1e19 !important; /* dark card background */
+  --color-base-300: #162f27 !important; /* dark border */
+  --color-base-content: #f0f7f3 !important; /* crisp sage-white text */
+  
+  --color-info: #38bdf8 !important;
+  --color-success: #22c55e !important;
+  --color-warning: #f59e0b !important;
+  --color-error: #ef4444 !important;
+
+  --glass-bg: rgba(13, 30, 25, 0.7) !important;
+  --glass-border: rgba(16, 185, 129, 0.1) !important;
+  --glass-shadow: 0 8px 32px 0 rgba(0, 0, 0, 0.3) !important;
+}
+
+/* Global Transitions and Font Enhancements */
+body {
+  font-family: 'Plus Jakarta Sans', sans-serif;
+  background-color: var(--color-base-100);
+  color: var(--color-base-content);
+  transition: background-color 0.4s ease, color 0.4s ease, border-color 0.4s ease;
+}
+
+h1, h2, h3, h4, h5, h6, .font-heading {
+  font-family: 'Outfit', sans-serif;
+  letter-spacing: -0.02em;
+}
+
+/* Safe override to prevent text-xs from being too small, as requested */
+.text-xs, 
+.badge-xs,
+.btn-xs {
+  font-size: 0.825rem !important; /* scales up to text-sm */
+  line-height: 1.25rem !important;
+}
+
+/* Premium Glassmorphism Classes */
+.glass-card {
+  background: var(--glass-bg);
+  backdrop-filter: blur(16px);
+  -webkit-backdrop-filter: blur(16px);
+  border: 1px solid var(--glass-border);
+  box-shadow: var(--glass-shadow);
+}
+
+.glass-navbar {
+  background: rgba(251, 251, 250, 0.75);
+  backdrop-filter: blur(20px);
+  -webkit-backdrop-filter: blur(20px);
+  border-bottom: 1px solid rgba(18, 76, 54, 0.05);
+}
+
+html[data-theme="premium-dark"] .glass-navbar {
+  background: rgba(7, 17, 14, 0.75);
+  border-bottom: 1px solid rgba(16, 185, 129, 0.08);
+}
+
+.glass-input {
+  background: rgba(255, 255, 255, 0.03);
+  border: 1px solid rgba(18, 76, 54, 0.15);
+  transition: all 0.3s ease;
+}
+
+html[data-theme="premium-dark"] .glass-input {
+  border: 1px solid rgba(16, 185, 129, 0.15);
+}
+
+.glass-input:focus {
+  background: rgba(255, 255, 255, 0.07);
+  border-color: var(--color-primary);
+  box-shadow: 0 0 12px rgba(16, 185, 129, 0.15);
+  outline: none;
+}
+
+/* Fix for transparent select option popups */
+select option {
+  background-color: var(--color-base-200, #f3f5f3) !important;
+  color: var(--color-base-content, #162a21) !important;
+}
+
+html[data-theme="premium-dark"] select option {
+  background-color: var(--color-base-200, #0d1e19) !important;
+  color: var(--color-base-content, #f0f7f3) !important;
+}
+
+/* Scrollbars */
+::-webkit-scrollbar {
+  width: 8px;
+  height: 8px;
+}
+
+::-webkit-scrollbar-track {
+  background: var(--color-base-100);
+}
+
+::-webkit-scrollbar-thumb {
+  background: var(--color-primary);
+  border-radius: 4px;
+  opacity: 0.7;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: var(--color-accent);
+}
+
+/* Keyframe Animations */
+@keyframes fadeInUp {
+  from {
+    opacity: 0;
+    transform: translateY(20px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@keyframes float {
+  0% {
+    transform: translateY(0px);
+  }
+  50% {
+    transform: translateY(-8px);
+  }
+  100% {
+    transform: translateY(0px);
+  }
+}
+
+@keyframes float-delayed {
+  0% {
+    transform: translateY(0px);
+  }
+  50% {
+    transform: translateY(-12px);
+  }
+  100% {
+    transform: translateY(0px);
+  }
+}
+
+@keyframes pulseGlow {
+  0%, 100% {
+    opacity: 0.6;
+    box-shadow: 0 0 0 0 rgba(16, 185, 129, 0.4);
+  }
+  50% {
+    opacity: 1;
+    box-shadow: 0 0 15px 4px rgba(16, 185, 129, 0.2);
+  }
+}
+
+.animate-fade-in-up {
+  animation: fadeInUp 0.8s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+}
+
+.animate-float {
+  animation: float 6s ease-in-out infinite;
+}
+
+.animate-float-delayed {
+  animation: float-delayed 8s ease-in-out infinite;
+}
+
+.pulse-glow {
+  animation: pulseGlow 3s infinite;
+}
+
+/* Modern Card Custom Styles */
+.premium-card {
+  position: relative;
+  overflow: hidden;
+  border-radius: 20px;
+  background: var(--color-base-100);
+  border: 1px solid var(--color-base-300);
+  transition: all 0.4s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.premium-card:hover {
+  transform: translateY(-5px);
+  border-color: var(--color-primary);
+  box-shadow: 0 20px 40px rgba(0, 0, 0, 0.05);
+}
+
+html[data-theme="premium-dark"] .premium-card:hover {
+  box-shadow: 0 20px 40px rgba(0, 0, 0, 0.2);
+}
+
+/* Premium Buttons */
+.btn-premium {
+  border-radius: 12px;
+  font-weight: 600;
+  transition: all 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+  letter-spacing: -0.01em;
+}
+
+.btn-premium:hover {
+  transform: scale(1.02);
+  box-shadow: 0 10px 20px rgba(18, 76, 54, 0.15);
+}
+
+html[data-theme="premium-dark"] .btn-premium:hover {
+  box-shadow: 0 10px 20px rgba(16, 185, 129, 0.15);
+}

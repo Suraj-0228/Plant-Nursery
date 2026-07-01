@@ -1,15 +1,59 @@
 <!doctype html>
-<html lang="en">
+<html lang="en" data-theme="premium-light">
   <head>
     <meta charset="UTF-8" />
     <link rel="icon" type="image/svg+xml" href="src/assets/leaf.svg" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>GreenThumb Nursery</title>
+    <title>GreenThumb Nursery — Premium Plant Boutique</title>
+    
+    <!-- Prevent theme flash on reload -->
+    <script>
+      (function() {
+        const saved = localStorage.getItem('theme');
+        const theme = saved === 'premium-dark' ? 'premium-dark' : 'premium-light';
+        document.documentElement.setAttribute('data-theme', theme);
+        if (theme === 'premium-dark') {
+          document.documentElement.classList.add('dark');
+        }
+      })();
+    </script>
+    
+    <!-- Google Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700;800&family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+    
+    <!-- DaisyUI v5 CSS (Core library components) -->
     <link href="https://cdn.jsdelivr.net/npm/daisyui@5" rel="stylesheet" type="text/css" />
+    <!-- Tailwind v4 browser script (for runtime compilation) -->
     <script src="https://cdn.jsdelivr.net/npm/@tailwindcss/browser@4"></script>
-    <link href="https://cdn.jsdelivr.net/npm/daisyui@5/themes.css" rel="stylesheet" type="text/css" />
+    
+    <!-- Tailwind 4 Theme Customization -->
+    <style type="text/theme">
+      @theme {
+        --font-sans: 'Plus Jakarta Sans', sans-serif;
+        --font-display: 'Outfit', sans-serif;
+        
+        --color-primary: #124c36;
+        --color-primary-focus: #0c3525;
+        --color-accent: #d4af37;
+        --color-accent-focus: #c29d2b;
+        --color-sage: #8fae9b;
+        --color-gold: #d4af37;
+        
+        --color-light-bg: #fbfbfa;
+        --color-light-card: #ffffff;
+        --color-light-text: #1a2f26;
+        --color-light-border: #e8ece9;
+        
+        --color-dark-bg: #07110e;
+        --color-dark-card: #0d1e19;
+        --color-dark-text: #f0f7f3;
+        --color-dark-border: #162f27;
+      }
+    </style>
   </head>
-  <body>
+  <body class="font-sans antialiased transition-colors duration-300">
     <div id="root"></div>
     <script type="module" src="/src/main.jsx"></script>
   </body>

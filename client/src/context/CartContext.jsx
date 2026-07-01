@@ -1,5 +1,6 @@
 import React, { createContext, useState, useEffect, useContext } from 'react';
 import { AuthContext } from './AuthContext';
+import { useModal } from './ModalContext';
 
 export const CartContext = createContext();
 
@@ -15,6 +16,7 @@ export const CartProvider = ({ children }) => {
   });
 
   const { user } = useContext(AuthContext);
+  const { showPopup } = useModal();
 
   useEffect(() => {
     localStorage.setItem('cartItems', JSON.stringify(cartItems));
@@ -22,7 +24,11 @@ export const CartProvider = ({ children }) => {
 
   const addToCart = (plant) => {
     if (!user) {
-      alert('Please, Login to Plant Nursery So, You can Add Plants to Your Cart!!');
+      showPopup({
+        title: 'Authentication Required',
+        message: 'Please log in to add plants to your cart!',
+        type: 'error'
+      });
       return;
     }
 
@@ -35,7 +41,11 @@ export const CartProvider = ({ children }) => {
             )
         );
     } else {
-        alert(`${plant.name} Added to Your Cart.`);
+        showPopup({
+          title: 'Added to Cart',
+          message: `${plant.name} has been added to your shopping cart.`,
+          type: 'success'
+        });
         setCartItems(prevItems => [...prevItems, { ...plant, quantity: 1 }]);
     }
   };

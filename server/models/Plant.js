@@ -26,6 +26,14 @@ const plantSchema = new mongoose.Schema({
   description: {
     type: String,
   },
+  careInstructions: {
+    Light: String,
+    Watering: String,
+    Soil: String,
+    Temperature: String,
+    Humidity: String,
+    Pests: String,
+  },
 }, { timestamps: true });
 
 const Plant = mongoose.model('Plant', plantSchema);
