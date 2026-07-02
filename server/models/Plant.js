@@ -14,6 +14,11 @@ const plantSchema = new mongoose.Schema({
     type: Number,
     required: true,
   },
+  stock: {
+    type: Number,
+    required: true,
+    default: 25,
+  },
   image: {
     type: String,
     required: true,

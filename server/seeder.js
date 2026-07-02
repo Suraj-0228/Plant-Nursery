@@ -10,7 +10,7 @@ mongoose.connect(dbURI, { useNewUrlParser: true, useUnifiedTopology: true });
 
 // Read JSON files
 const users = JSON.parse(fs.readFileSync(path.join(__dirname, '../data/users.json'), 'utf-8'));
-const plants = JSON.parse(fs.readFileSync(path.join(__dirname, '../data/plants_data.json'), 'utf-8'));
+const plants = JSON.parse(fs.readFileSync(path.join(__dirname, '../data/plants.json'), 'utf-8'));
 
 // Import data into DB
 const importData = async () => {

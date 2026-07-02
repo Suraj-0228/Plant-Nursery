@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { Eye, X, User, Home, ShoppingCart, Sparkles, Calendar, DollarSign, CreditCard } from 'lucide-react';
+import { Eye, X, User, Home, ShoppingCart, Sparkles, Calendar, CreditCard } from 'lucide-react';
 
 const ManageOrders = () => {
   const [orders, setOrders] = useState([]);
@@ -8,6 +8,7 @@ const ManageOrders = () => {
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [selectedOrder, setSelectedOrder] = useState(null);
   const [currentPage, setCurrentPage] = useState(1);
+  const [taxRate, setTaxRate] = useState(0.05);
   const ordersPerPage = 8;
 
   const fetchOrders = async () => {
@@ -17,8 +18,21 @@ const ManageOrders = () => {
     setFilteredOrders(data.data);
   };
 
+  const fetchTaxRate = async () => {
+    try {
+      const res = await fetch('/api/tax');
+      if (res.ok) {
+        const data = await res.json();
+        setTaxRate(data.rate / 100);
+      }
+    } catch (e) {
+      console.error(e);
+    }
+  };
+
   useEffect(() => {
     fetchOrders();
+    fetchTaxRate();
   }, []);
 
   useEffect(() => {
@@ -112,15 +126,16 @@ const ManageOrders = () => {
                   </td>
                   <td>
                     <select 
-                      className="select select-bordered select-sm rounded-xl glass-input text-sm h-9 px-3" 
+                      className="select select-bordered select-sm rounded-xl glass-input text-sm h-9 px-3 disabled:opacity-75 disabled:cursor-not-allowed" 
                       value={order.orderStatus} 
                       onChange={(e) => handleStatusChange(order._id, e.target.value)}
+                      disabled={order.orderStatus === 'Cancelled'}
                     >
                       <option>Confirmed</option>
                       <option>Processing</option>
                       <option>Shipped</option>
                       <option>Delivered</option>
-                      <option>Cancelled</option>
+                      {order.orderStatus === 'Cancelled' && <option>Cancelled</option>}
                     </select>
                   </td>
                   <td className="text-right">
@@ -226,6 +241,24 @@ const ManageOrders = () => {
                     <p className="font-bold text-base-content font-heading text-base">₹{((item.plant?.price || 0) * item.quantity).toFixed(2)}</p>
                   </div>
                 ))}
+              </div>
+            </div>
+
+            <div className="border-t border-base-300/40 my-4"></div>
+
+            {/* Invoice Breakdown Details */}
+            <div className="space-y-2.5 text-sm text-base-content/85 px-1">
+              <div className="flex justify-between">
+                <span>Cart Subtotal</span>
+                <span className="font-semibold">₹{selectedOrder.items.reduce((acc, item) => acc + ((item.plant?.price || 0) * item.quantity), 0).toFixed(2)}</span>
+              </div>
+              <div className="flex justify-between">
+                <span>GST Value ({Math.round(taxRate * 100)}%)</span>
+                <span className="font-semibold">₹{(selectedOrder.items.reduce((acc, item) => acc + ((item.plant?.price || 0) * item.quantity), 0) * taxRate).toFixed(2)}</span>
+              </div>
+              <div className="flex justify-between">
+                <span>Shipping Cost</span>
+                <span className="font-semibold text-emerald-500">Complimentary</span>
               </div>
             </div>
 

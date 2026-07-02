@@ -138,7 +138,7 @@ const Navbar = () => {
               </label>
               <ul 
                 tabIndex={0} 
-                className="mt-3 p-2 shadow-2xl menu dropdown-content bg-base-100 border border-base-300 rounded-2xl w-56 animate-fade-in-up"
+                className="mt-3 p-2 shadow-2xl menu dropdown-content bg-base-100 border border-base-300 rounded-2xl w-56 animate-fade-in-up opaque-dropdown"
               >
                 {user ? (
                   <>

@@ -22,9 +22,24 @@ const Checkout = () => {
   const { user } = useContext(AuthContext);
   const { showPopup } = useModal();
   const navigate = useNavigate();
+  const [taxRate, setTaxRate] = useState(0.05);
+
+  useEffect(() => {
+    const fetchTaxRate = async () => {
+      try {
+        const res = await fetch('/api/tax');
+        if (res.ok) {
+          const data = await res.json();
+          setTaxRate(data.rate / 100);
+        }
+      } catch (e) {
+        console.error(e);
+      }
+    };
+    fetchTaxRate();
+  }, []);
 
   const cartTotal = cartItems.reduce((total, item) => total + item.price * item.quantity, 0);
-  const taxRate = 0.05;
   const taxAmount = cartTotal * taxRate;
   const shippingCost = 0;
   const grandTotal = cartTotal + taxAmount + shippingCost;
@@ -406,7 +421,7 @@ const Checkout = () => {
                 <span className="text-emerald-500 font-semibold">{shippingCost === 0 ? 'Complimentary' : `₹${shippingCost.toFixed(2)}`}</span>
               </div>
               <div className="flex justify-between">
-                <span>Tax (5%)</span>
+                <span>GST ({Math.round(taxRate * 100)}%)</span>
                 <span className="font-bold text-base-content">₹{taxAmount.toFixed(2)}</span>
               </div>
             </div>

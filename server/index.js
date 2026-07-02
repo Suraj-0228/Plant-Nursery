@@ -7,6 +7,7 @@ const plantRoutes = require('./routes/plants');
 const wishlistRoutes = require('./routes/wishlist');
 const orderRoutes = require('./routes/orders');
 const userRoutes = require('./routes/users');
+const taxRoutes = require('./routes/tax');
 
 const app = express();
 const port = process.env.PORT || 5000;
@@ -35,6 +36,7 @@ app.use('/api/plants', plantRoutes);
 app.use('/api/wishlist', wishlistRoutes);
 app.use('/api/orders', orderRoutes);
 app.use('/api/users', userRoutes);
+app.use('/api/tax', taxRoutes);
 
 app.get('/', (req, res) => {
   res.send('Plant Nursery Server is Running!');

@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react';
+import React, { useEffect, lazy, Suspense } from 'react';
 import { BrowserRouter as Router, Routes, Route, useLocation } from 'react-router-dom';
 import { AuthProvider } from './context/AuthContext';
 import { CartProvider } from './context/CartContext';
@@ -6,28 +6,51 @@ import { ModalProvider } from './context/ModalContext';
 import Navbar from './components/Navbar';
 import Footer from './components/Footer';
 import ScrollToTop from './components/ScrollToTop';
-import Home from './pages/Home';
-import Category from './pages/Category';
-import Guide from './pages/Guide';
-import About from './pages/About';
-import Contact from './pages/Contact';
-import Login from './pages/Login';
-import Register from './pages/Register';
-import Account from './pages/Account';
-import Wishlist from './pages/Wishlist';
-import Checkout from './pages/Checkout';
-import Orders from './pages/Orders';
-import Payment from './pages/Payment';
-import PlantDetail from './pages/PlantDetail';
-import Cart from './pages/Cart';
-import Settings from './pages/Settings';
 import PrivateRoute from './components/PrivateRoute';
 import AdminRoute from './components/AdminRoute';
 import AdminLayout from './layouts/AdminLayout';
-import AdminDashboard from './pages/admin/AdminDashboard';
-import ManagePlants from './pages/admin/ManagePlants';
-import ManageUsers from './pages/admin/ManageUsers';
-import ManageOrders from './pages/admin/ManageOrders';
+
+// Lazy Loaded Pages
+const Home = lazy(() => import('./pages/Home'));
+const Category = lazy(() => import('./pages/Category'));
+const Guide = lazy(() => import('./pages/Guide'));
+const About = lazy(() => import('./pages/About'));
+const Contact = lazy(() => import('./pages/Contact'));
+const Login = lazy(() => import('./pages/Login'));
+const Register = lazy(() => import('./pages/Register'));
+const Account = lazy(() => import('./pages/Account'));
+const Wishlist = lazy(() => import('./pages/Wishlist'));
+const Checkout = lazy(() => import('./pages/Checkout'));
+const Orders = lazy(() => import('./pages/Orders'));
+const Payment = lazy(() => import('./pages/Payment'));
+const PlantDetail = lazy(() => import('./pages/PlantDetail'));
+const Cart = lazy(() => import('./pages/Cart'));
+const Settings = lazy(() => import('./pages/Settings'));
+const PrivacyPolicy = lazy(() => import('./pages/PrivacyPolicy'));
+const TermsConditions = lazy(() => import('./pages/TermsConditions'));
+const FAQ = lazy(() => import('./pages/FAQ'));
+
+// Admin Pages
+const AdminDashboard = lazy(() => import('./pages/admin/AdminDashboard'));
+const ManagePlants = lazy(() => import('./pages/admin/ManagePlants'));
+const ManageUsers = lazy(() => import('./pages/admin/ManageUsers'));
+const ManageOrders = lazy(() => import('./pages/admin/ManageOrders'));
+const ManageTax = lazy(() => import('./pages/admin/ManageTax'));
+
+const PageLoader = () => (
+  <div className="flex flex-col items-center justify-center min-h-[60vh] w-full py-12 space-y-4">
+    <div className="relative flex items-center justify-center">
+      <div className="w-14 h-14 border-4 border-primary/20 border-t-primary rounded-full animate-spin"></div>
+      <div className="absolute w-7 h-7 bg-primary/10 rounded-full flex items-center justify-center">
+        <span className="text-primary font-bold text-[9px]">GT</span>
+      </div>
+    </div>
+    <div className="space-y-1 text-center animate-pulse">
+      <p className="font-heading font-extrabold text-sm text-base-content/85 tracking-wider uppercase">Loading Greenhouse</p>
+      <p className="text-xs text-base-content/55">Cultivating your specimen profiles...</p>
+    </div>
+  </div>
+);
 
 const AppContent = () => {
   const location = useLocation();
@@ -53,6 +76,10 @@ const AppContent = () => {
       '/admin/plants': 'Manage Plants — GreenThumb Control',
       '/admin/users': 'Manage Users — GreenThumb Control',
       '/admin/orders': 'Manage Orders — GreenThumb Control',
+      '/admin/tax': 'GST Settings — GreenThumb Control',
+      '/privacy': 'Privacy Policy — GreenThumb Nursery',
+      '/terms': 'Terms & Conditions — GreenThumb Nursery',
+      '/faq': 'FAQ & Support — GreenThumb Nursery',
     };
 
     const path = location.pathname;
@@ -71,37 +98,43 @@ const AppContent = () => {
     <div className="flex flex-col min-h-screen">
       {!isAdminRoute && <Navbar />}
       <main className="flex-grow">
-        <Routes>
-          <Route path="/" element={<Home />} />
-          <Route path="/category" element={<Category />} />
-          <Route path="/guide" element={<Guide />} />
-          <Route path="/about" element={<About />} />
-          <Route path="/contact" element={<Contact />} />
-          <Route path="/login" element={<Login />} />
-          <Route path="/register" element={<Register />} />
-          <Route path="/cart" element={<Cart />} />
-          
-          {/* Private Routes */}
-          <Route path='/' element={<PrivateRoute/>}>
-            <Route path="/account" element={<Account />} />
-            <Route path="/wishlist" element={<Wishlist />} />
-            <Route path="/checkout" element={<Checkout />} />
-            <Route path="/orders" element={<Orders />} />
-            <Route path="/payment" element={<Payment />} />
-            <Route path="/settings" element={<Settings />} />
-            <Route path="/plant/:id" element={<PlantDetail />} />
-          </Route>
-
-          {/* Admin Routes */}
-          <Route path="/admin" element={<AdminRoute />}>
-            <Route element={<AdminLayout />}>
-              <Route path="dashboard" element={<AdminDashboard />} />
-              <Route path="plants" element={<ManagePlants />} />
-              <Route path="users" element={<ManageUsers />} />
-              <Route path="orders" element={<ManageOrders />} />
+        <Suspense fallback={<PageLoader />}>
+          <Routes>
+            <Route path="/" element={<Home />} />
+            <Route path="/category" element={<Category />} />
+            <Route path="/guide" element={<Guide />} />
+            <Route path="/about" element={<About />} />
+            <Route path="/contact" element={<Contact />} />
+            <Route path="/login" element={<Login />} />
+            <Route path="/register" element={<Register />} />
+            <Route path="/cart" element={<Cart />} />
+            <Route path="/privacy" element={<PrivacyPolicy />} />
+            <Route path="/terms" element={<TermsConditions />} />
+            <Route path="/faq" element={<FAQ />} />
+            
+            {/* Private Routes */}
+            <Route path='/' element={<PrivateRoute/>}>
+              <Route path="/account" element={<Account />} />
+              <Route path="/wishlist" element={<Wishlist />} />
+              <Route path="/checkout" element={<Checkout />} />
+              <Route path="/orders" element={<Orders />} />
+              <Route path="/payment" element={<Payment />} />
+              <Route path="/settings" element={<Settings />} />
+              <Route path="/plant/:id" element={<PlantDetail />} />
             </Route>
-          </Route>
-        </Routes>
+
+            {/* Admin Routes */}
+            <Route path="/admin" element={<AdminRoute />}>
+              <Route element={<AdminLayout />}>
+                <Route path="dashboard" element={<AdminDashboard />} />
+                <Route path="plants" element={<ManagePlants />} />
+                <Route path="users" element={<ManageUsers />} />
+                <Route path="orders" element={<ManageOrders />} />
+                <Route path="tax" element={<ManageTax />} />
+              </Route>
+            </Route>
+          </Routes>
+        </Suspense>
       </main>
       {!isAdminRoute && <Footer />}
     </div>

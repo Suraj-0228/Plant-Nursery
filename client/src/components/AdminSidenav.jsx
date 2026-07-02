@@ -1,23 +1,33 @@
 import React, { useContext, useState } from 'react';
 import { NavLink, useNavigate, Link } from 'react-router-dom';
 import { AuthContext } from '../context/AuthContext';
-import { LayoutDashboard, Sprout, Users, LogOut, ChevronLeft, ChevronRight, ShoppingCart, Leaf } from 'lucide-react';
+import { useModal } from '../context/ModalContext';
+import { LayoutDashboard, Sprout, Users, LogOut, ChevronLeft, ChevronRight, ShoppingCart, Leaf, Percent } from 'lucide-react';
 
 const AdminSidenav = () => {
   const { logout, user } = useContext(AuthContext);
+  const { showPopup } = useModal();
   const navigate = useNavigate();
   const [isCollapsed, setIsCollapsed] = useState(false);
 
   const handleLogout = () => {
-    logout();
-    navigate('/login');
+    showPopup({
+      title: 'Confirm Logout',
+      message: 'Are you sure you want to log out of your session?',
+      type: 'confirm',
+      onConfirm: () => {
+        logout();
+        navigate('/login');
+      }
+    });
   };
 
   const navItems = [
     { to: '/admin/dashboard', icon: <LayoutDashboard className="h-5 w-5" />, label: 'Dashboard' },
     { to: '/admin/plants', icon: <Sprout className="h-5 w-5" />, label: 'Manage Plants' },
-    { to: '/admin/users', icon: <Users className="h-5 w-5" />, label: 'Manage Users' },
     { to: '/admin/orders', icon: <ShoppingCart className="h-5 w-5" />, label: 'Manage Orders' },
+    { to: '/admin/users', icon: <Users className="h-5 w-5" />, label: 'Manage Users' },
+    { to: '/admin/tax', icon: <Percent className="h-5 w-5" />, label: 'GST Settings' },
   ];
 
   return (
@@ -81,7 +91,7 @@ const AdminSidenav = () => {
         
         <button 
           onClick={handleLogout} 
-          className={`btn justify-start text-error hover:bg-error/15 h-11 w-full rounded-xl btn-premium text-sm font-semibold flex items-center ${
+          className={`btn justify-center text-error hover:bg-error/15 h-11 w-full rounded-xl btn-premium text-sm font-semibold flex items-center ${
             isCollapsed ? 'btn-circle justify-center p-0' : 'px-4'
           }`}
         >

@@ -209,10 +209,20 @@ const Category = () => {
                           <Heart className="h-4.5 w-4.5 fill-none group-hover:fill-current transition-colors" />
                         </button>
                       </div>
-                      <div className="absolute top-4 left-4 z-10">
+                      <div className="absolute top-4 left-4 z-10 flex flex-col gap-2">
                         <span className="badge badge-primary border-none shadow-sm font-bold text-sm px-3.5 py-2.5">
                           {plant.category}
                         </span>
+                        {plant.stock === 0 && (
+                          <span className="badge bg-error border-none text-white font-extrabold text-[10px] px-3.5 py-2 shadow-lg tracking-wider uppercase">
+                            Out of Stock
+                          </span>
+                        )}
+                        {plant.stock > 0 && plant.stock <= 5 && (
+                          <span className="badge bg-warning border-none text-black font-extrabold text-[10px] px-3 py-2 shadow-lg tracking-wider uppercase">
+                            Only {plant.stock} Left
+                          </span>
+                        )}
                       </div>
                     </figure>
 
@@ -236,9 +246,10 @@ const Category = () => {
                         <p className="text-2xl font-bold text-primary font-heading">₹{plant.price.toFixed(2)}</p>
                         <button 
                           onClick={(e) => { e.stopPropagation(); addToCart(plant); }} 
-                          className="btn btn-primary btn-sm rounded-xl btn-premium px-4 py-2 font-semibold flex items-center gap-1.5 shadow-md"
+                          className="btn btn-primary btn-sm rounded-xl btn-premium px-4 py-2 font-semibold flex items-center gap-1.5 shadow-md disabled:bg-base-300 disabled:text-base-content/40 disabled:cursor-not-allowed border-none"
+                          disabled={plant.stock === 0}
                         >
-                          <ShoppingCart className="h-4 w-4" /> Add
+                          <ShoppingCart className="h-4 w-4" /> {plant.stock === 0 ? 'Sold Out' : 'Add'}
                         </button>
                       </div>
                     </div>

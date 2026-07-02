@@ -234,13 +234,34 @@ const PlantDetail = () => {
               )}
             </div>
 
+            {/* Stock indicator status */}
+            <div className="pt-4 pb-2">
+              {plant.stock === 0 ? (
+                <div className="flex items-center gap-2 text-rose-500 font-bold text-sm">
+                  <span className="w-2.5 h-2.5 bg-rose-500 rounded-full animate-pulse"></span>
+                  <span>Currently Out of Stock (Sold Out)</span>
+                </div>
+              ) : plant.stock <= 5 ? (
+                <div className="flex items-center gap-2 text-amber-500 font-bold text-sm">
+                  <span className="w-2.5 h-2.5 bg-amber-500 rounded-full animate-pulse"></span>
+                  <span>Extremely Limited Stock — Only {plant.stock} remaining!</span>
+                </div>
+              ) : (
+                <div className="flex items-center gap-2 text-emerald-500 font-bold text-sm">
+                  <span className="w-2.5 h-2.5 bg-emerald-500 rounded-full"></span>
+                  <span>In Stock (Ready to dispatch)</span>
+                </div>
+              )}
+            </div>
+
             {/* Action buttons */}
             <div className="flex flex-col sm:flex-row gap-4 pt-6 border-t border-base-300/40">
               <button 
                 onClick={() => addToCart(plant)} 
-                className="btn btn-primary h-14 text-sm font-semibold rounded-2xl flex-grow btn-premium shadow-md flex items-center justify-center gap-2"
+                className="btn btn-primary h-14 text-sm font-semibold rounded-2xl flex-grow btn-premium shadow-md flex items-center justify-center gap-2 disabled:bg-base-300 disabled:text-base-content/40 disabled:cursor-not-allowed border-none"
+                disabled={plant.stock === 0}
               >
-                <ShoppingCart className="h-5 w-5" /> Add to Shopping Cart
+                <ShoppingCart className="h-5 w-5" /> {plant.stock === 0 ? 'Out of Stock' : 'Add to Shopping Cart'}
               </button>
               <button 
                 onClick={handleAddToWishlist} 

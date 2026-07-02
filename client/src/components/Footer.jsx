@@ -55,9 +55,9 @@ const Footer = () => {
                 </Link>
               </li>
               <li>
-                <a href="#" className="text-base-content/85 hover:text-primary text-sm transition-colors duration-200">
+                <Link to="/faq" className="text-base-content/85 hover:text-primary text-sm transition-colors duration-200">
                   FAQ & Support
-                </a>
+                </Link>
               </li>
             </ul>
           </div>
@@ -118,8 +118,8 @@ const Footer = () => {
             &copy; {new Date().getFullYear()} GreenThumb Nursery. Crafted for modern sanctuaries.
           </p>
           <div className="flex items-center gap-6">
-            <a href="#" className="text-base-content/60 hover:text-primary text-sm transition-colors duration-200">Privacy Policy</a>
-            <a href="#" className="text-base-content/60 hover:text-primary text-sm transition-colors duration-200">Terms of Service</a>
+            <Link to="/privacy" className="text-base-content/60 hover:text-primary text-sm transition-colors duration-200">Privacy Policy</Link>
+            <Link to="/terms" className="text-base-content/60 hover:text-primary text-sm transition-colors duration-200">Terms of Service</Link>
           </div>
         </div>
 

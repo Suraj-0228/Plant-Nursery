@@ -123,24 +123,27 @@ html[data-theme="premium-dark"] select option {
   color: var(--color-base-content, #f0f7f3) !important;
 }
 
-/* Scrollbars */
-::-webkit-scrollbar {
-  width: 8px;
-  height: 8px;
+/* Hide all scrollbars globally */
+*::-webkit-scrollbar {
+  display: none !important;
+  width: 0 !important;
+  height: 0 !important;
 }
 
-::-webkit-scrollbar-track {
-  background: var(--color-base-100);
+* {
+  -ms-overflow-style: none !important;  /* IE and Edge */
+  scrollbar-width: none !important;  /* Firefox */
 }
 
-::-webkit-scrollbar-thumb {
-  background: var(--color-primary);
-  border-radius: 4px;
-  opacity: 0.7;
+/* Hide number input spinners (scroll arrows) globally */
+input::-webkit-outer-spin-button,
+input::-webkit-inner-spin-button {
+  -webkit-appearance: none !important;
+  margin: 0 !important;
 }
 
-::-webkit-scrollbar-thumb:hover {
-  background: var(--color-accent);
+input[type=number] {
+  -moz-appearance: textfield !important;
 }
 
 /* Keyframe Animations */
@@ -241,4 +244,16 @@ html[data-theme="premium-dark"] .premium-card:hover {
 
 html[data-theme="premium-dark"] .btn-premium:hover {
   box-shadow: 0 10px 20px rgba(16, 185, 129, 0.15);
+}
+
+/* Opaque Dropdown Popups to prevent overlapping transparency text issue */
+.opaque-dropdown {
+  background-color: #fbfbfa !important;
+  opacity: 1 !important;
+  backdrop-filter: none !important;
+  -webkit-backdrop-filter: none !important;
+}
+
+html[data-theme="premium-dark"] .opaque-dropdown {
+  background-color: #07110e !important;
 }

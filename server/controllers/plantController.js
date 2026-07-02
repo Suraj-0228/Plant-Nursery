@@ -41,7 +41,7 @@ const getPlantById = async (req, res) => {
 };
 
 const createPlant = async (req, res) => {
-  const { name, category, price, image, careDifficulty, description } = req.body;
+  const { name, category, price, image, careDifficulty, description, stock } = req.body;
 
   try {
     const newPlant = new Plant({
@@ -51,6 +51,7 @@ const createPlant = async (req, res) => {
       image,
       careDifficulty,
       description,
+      stock: stock !== undefined ? stock : 50,
     });
 
     const savedPlant = await newPlant.save();
@@ -64,7 +65,7 @@ const createPlant = async (req, res) => {
 // @route   PUT /api/plants/:id
 // @access  Private/Admin
 const updatePlant = async (req, res) => {
-  const { name, category, price, image, careDifficulty, description } = req.body;
+  const { name, category, price, image, careDifficulty, description, stock } = req.body;
 
   try {
     const plant = await Plant.findById(req.params.id);
@@ -72,10 +73,11 @@ const updatePlant = async (req, res) => {
     if (plant) {
       plant.name = name || plant.name;
       plant.category = category || plant.category;
-      plant.price = price || plant.price;
+      plant.price = price !== undefined ? price : plant.price;
       plant.description = description || plant.description;
       plant.image = image || plant.image;
       plant.careDifficulty = careDifficulty || plant.careDifficulty;
+      plant.stock = stock !== undefined ? stock : plant.stock;
 
       const updatedPlant = await plant.save();
       res.json(updatedPlant);
@@ -86,7 +88,6 @@ const updatePlant = async (req, res) => {
     res.status(400).json({ message: error.message });
   }
 };
-
 // @desc    Delete a plant
 // @route   DELETE /api/plants/:id
 // @access  Private/Admin

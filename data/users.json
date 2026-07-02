@@ -1,7 +1,7 @@
 [
   {
     "fullname": "Admin User",
-    "email": "admin@example.com",
+    "email": "admin@greenthumb.com",
     "username": "admin_001",
     "password": "$2b$10$xRccLWgoXilxsQtcmXH5Tea7iV0yTOigTk.N5sZrPgKtcLNKpKHuW",
     "isAdmin": true

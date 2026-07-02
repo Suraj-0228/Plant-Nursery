@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { Plus, Edit, Trash2, Leaf, LayoutGrid, DollarSign, Image, Star, Sparkles, X } from 'lucide-react';
+import { Plus, Edit, Trash2, Leaf, LayoutGrid, IndianRupee, Image, Star, Sparkles, X } from 'lucide-react';
 import { useModal } from '../../context/ModalContext';
 
 const ManagePlants = () => {
@@ -7,7 +7,7 @@ const ManagePlants = () => {
   const [showAddModal, setShowAddModal] = useState(false);
   const [showEditModal, setShowEditModal] = useState(false);
   const [currentPlant, setCurrentPlant] = useState(null);
-  const [newPlant, setNewPlant] = useState({ name: '', category: 'Indoor', price: '', description: '', image: '', careDifficulty: 'Easy' });
+  const [newPlant, setNewPlant] = useState({ name: '', category: 'Indoor', price: '', description: '', image: '', careDifficulty: 'Easy', stock: 50 });
   const { showPopup } = useModal();
   const [currentPage, setCurrentPage] = useState(1);
   const plantsPerPage = 8;
@@ -22,6 +22,11 @@ const ManagePlants = () => {
       err.price = 'Price is required';
     } else if (Number(plantData.price) <= 0) {
       err.price = 'Price must be a positive value';
+    }
+    if (plantData.stock === undefined || plantData.stock === null || plantData.stock === '' || isNaN(plantData.stock)) {
+      err.stock = 'Stock level is required';
+    } else if (Number(plantData.stock) < 0) {
+      err.stock = 'Stock must be 0 or a positive integer';
     }
     if (!plantData.image || !plantData.image.trim()) {
       err.image = 'Image URL is required';
@@ -91,7 +96,7 @@ const ManagePlants = () => {
       message: 'New plant specimen added to the catalog.',
       type: 'success'
     });
-    setNewPlant({ name: '', category: 'Indoor', price: '', description: '', image: '', careDifficulty: 'Easy' });
+    setNewPlant({ name: '', category: 'Indoor', price: '', description: '', image: '', careDifficulty: 'Easy', stock: 50 });
     setShowAddModal(false);
     fetchPlants();
   };
@@ -144,6 +149,7 @@ const ManagePlants = () => {
                 <th>Specimen</th>
                 <th>Category</th>
                 <th>Price Value</th>
+                <th>Inventory Stock</th>
                 <th>Difficulty</th>
                 <th className="text-right">Actions</th>
               </tr>
@@ -170,6 +176,7 @@ const ManagePlants = () => {
                     </span>
                   </td>
                   <td className="font-bold text-base-content font-heading text-base">₹{plant.price.toFixed(2)}</td>
+                  <td className="font-semibold text-base-content/85">{plant.stock !== undefined ? plant.stock : 50} units</td>
                   <td>
                     <span className={`badge border-none font-bold text-sm px-2.5 py-1.5 rounded-lg ${
                       plant.careDifficulty === 'Easy' ? 'bg-emerald-500/10 text-emerald-500' :
@@ -234,7 +241,7 @@ const ManagePlants = () => {
       {/* Add / Edit Modals */}
       {(showAddModal || showEditModal) && (
         <div className="modal modal-open bg-black/60 backdrop-blur-md flex items-center justify-center z-50 p-4 transition-all duration-300">
-          <div className="p-6 sm:p-8 rounded-[32px] border border-base-300/40 bg-base-100 max-w-lg w-full shadow-2xl relative glass-card animate-fade-in-up space-y-6">
+          <div className="p-6 sm:p-8 rounded-[32px] border border-base-300/40 bg-base-100 max-w-lg w-full max-h-[90vh] flex flex-col shadow-2xl relative glass-card animate-fade-in-up space-y-4 overflow-hidden">
             
             <button 
               onClick={() => showAddModal ? setShowAddModal(false) : setShowEditModal(false)}
@@ -243,87 +250,106 @@ const ManagePlants = () => {
               <X size={18} />
             </button>
 
-            <div className="text-center space-y-1">
+            <div className="text-center space-y-1 flex-shrink-0">
               <h3 className="text-2xl font-extrabold text-base-content font-heading tracking-tight">
                 {showAddModal ? 'Add New Specimen' : 'Modify Specimen'}
               </h3>
               <p className="text-sm text-base-content/65">Enter botanical specifications below.</p>
             </div>
 
-            <form onSubmit={showAddModal ? handleAddPlant : handleUpdatePlant} className="space-y-4">
+            <form onSubmit={showAddModal ? handleAddPlant : handleUpdatePlant} className="flex flex-col flex-grow overflow-hidden space-y-4">
               
-              {/* Name */}
-              <div className="form-control w-full space-y-2">
-                <label className="text-sm font-semibold text-base-content/85 ml-1">Specimen Name</label>
-                <div className="relative">
-                  <Leaf className="absolute left-4 top-1/2 -translate-y-1/2 h-4.5 w-4.5 text-base-content/40" />
-                  <input 
-                    type="text" 
-                    placeholder="Plant name (e.g. Lavender)" 
-                    className={`input input-bordered w-full pl-12 pr-4 rounded-xl glass-input text-sm h-11 mt-2 ${errors.name ? 'border-error/60 focus:border-error' : ''}`}
-                    value={showEditModal ? currentPlant.name : newPlant.name} 
-                    onChange={(e) => showEditModal ? setCurrentPlant({ ...currentPlant, name: e.target.value }) : setNewPlant({ ...newPlant, name: e.target.value })} 
-                  />
-                  {errors.name && <span className="text-error text-xs ml-1 mt-1 block">{errors.name}</span>}
-                </div>
-              </div>
-
-              {/* Category & Care Difficulty */}
-              <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
-                
+              <div className="flex-grow overflow-y-auto space-y-4 pr-1.5 py-1">
+                {/* Name */}
                 <div className="form-control w-full space-y-2">
-                  <label className="text-sm font-semibold text-base-content/85 ml-1">Category</label>
+                  <label className="text-sm font-semibold text-base-content/85 ml-1">Specimen Name</label>
                   <div className="relative">
-                    <LayoutGrid className="absolute left-4 top-1/2 -translate-y-1/2 h-4.5 w-4.5 text-base-content/40" />
-                    <select 
-                      className="select select-bordered w-full pl-12 rounded-xl glass-input text-sm h-11 mt-2" 
-                      value={showEditModal ? currentPlant.category : newPlant.category} 
-                      onChange={(e) => showEditModal ? setCurrentPlant({ ...currentPlant, category: e.target.value }) : setNewPlant({ ...newPlant, category: e.target.value })}
-                    >
-                      <option>Indoor</option>
-                      <option>Outdoor</option>
-                      <option>Herbs & Vegetables</option>
-                      <option>Flowers</option>
-                    </select>
-                  </div>
-                </div>
-
-                <div className="form-control w-full space-y-2">
-                  <label className="text-sm font-semibold text-base-content/85 ml-1">Care Difficulty</label>
-                  <div className="relative">
-                    <Star className="absolute left-4 top-1/2 -translate-y-1/2 h-4.5 w-4.5 text-base-content/40" />
-                    <select 
-                      className="select select-bordered w-full pl-12 rounded-xl glass-input text-sm h-11 mt-2" 
-                      value={showEditModal ? currentPlant.careDifficulty : newPlant.careDifficulty} 
-                      onChange={(e) => showEditModal ? setCurrentPlant({ ...currentPlant, careDifficulty: e.target.value }) : setNewPlant({ ...newPlant, careDifficulty: e.target.value })}
-                    >
-                      <option>Easy</option>
-                      <option>Medium</option>
-                      <option>Hard</option>
-                    </select>
-                  </div>
-                </div>
-
-              </div>
-
-              {/* Price & Image */}
-              <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
-                
-                <div className="form-control w-full space-y-2">
-                  <label className="text-sm font-semibold text-base-content/85 ml-1">Price (INR)</label>
-                  <div className="relative">
-                    <DollarSign className="absolute left-4 top-1/2 -translate-y-1/2 h-4.5 w-4.5 text-base-content/40" />
+                    <Leaf className="absolute left-4 top-1/2 -translate-y-1/2 h-4.5 w-4.5 text-base-content/40" />
                     <input 
-                      type="number" 
-                      placeholder="Price" 
-                      className={`input input-bordered w-full pl-12 pr-4 rounded-xl glass-input text-sm h-11 mt-2 ${errors.price ? 'border-error/60 focus:border-error' : ''}`}
-                      value={showEditModal ? currentPlant.price : newPlant.price} 
-                      onChange={(e) => showEditModal ? setCurrentPlant({ ...currentPlant, price: Number(e.target.value) }) : setNewPlant({ ...newPlant, price: Number(e.target.value) })} 
+                      type="text" 
+                      placeholder="Plant name (e.g. Lavender)" 
+                      className={`input input-bordered w-full pl-12 pr-4 rounded-xl glass-input text-sm h-11 mt-2 ${errors.name ? 'border-error/60 focus:border-error' : ''}`}
+                      value={showEditModal ? currentPlant.name : newPlant.name} 
+                      onChange={(e) => showEditModal ? setCurrentPlant({ ...currentPlant, name: e.target.value }) : setNewPlant({ ...newPlant, name: e.target.value })} 
                     />
-                    {errors.price && <span className="text-error text-xs ml-1 mt-1 block">{errors.price}</span>}
+                    {errors.name && <span className="text-error text-xs ml-1 mt-1 block">{errors.name}</span>}
                   </div>
                 </div>
 
+                {/* Category & Care Difficulty */}
+                <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                  
+                  <div className="form-control w-full space-y-2">
+                    <label className="text-sm font-semibold text-base-content/85 ml-1">Category</label>
+                    <div className="relative">
+                      <LayoutGrid className="absolute left-4 top-1/2 -translate-y-1/2 h-4.5 w-4.5 text-base-content/40" />
+                      <select 
+                        className="select select-bordered w-full pl-12 rounded-xl glass-input text-sm h-11 mt-2" 
+                        value={showEditModal ? currentPlant.category : newPlant.category} 
+                        onChange={(e) => showEditModal ? setCurrentPlant({ ...currentPlant, category: e.target.value }) : setNewPlant({ ...newPlant, category: e.target.value })}
+                      >
+                        <option>Indoor</option>
+                        <option>Outdoor</option>
+                        <option>Herbs & Vegetables</option>
+                        <option>Flowers</option>
+                      </select>
+                    </div>
+                  </div>
+
+                  <div className="form-control w-full space-y-2">
+                    <label className="text-sm font-semibold text-base-content/85 ml-1">Care Difficulty</label>
+                    <div className="relative">
+                      <Star className="absolute left-4 top-1/2 -translate-y-1/2 h-4.5 w-4.5 text-base-content/40" />
+                      <select 
+                        className="select select-bordered w-full pl-12 rounded-xl glass-input text-sm h-11 mt-2" 
+                        value={showEditModal ? currentPlant.careDifficulty : newPlant.careDifficulty} 
+                        onChange={(e) => showEditModal ? setCurrentPlant({ ...currentPlant, careDifficulty: e.target.value }) : setNewPlant({ ...newPlant, careDifficulty: e.target.value })}
+                      >
+                        <option>Easy</option>
+                        <option>Medium</option>
+                        <option>Hard</option>
+                      </select>
+                    </div>
+                  </div>
+
+                </div>
+
+                {/* Price & Stock */}
+                <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                  
+                  <div className="form-control w-full space-y-2">
+                    <label className="text-sm font-semibold text-base-content/85 ml-1">Price (INR)</label>
+                    <div className="relative">
+                      <IndianRupee className="absolute left-4 top-1/2 -translate-y-1/2 h-4.5 w-4.5 text-base-content/40" />
+                      <input 
+                        type="number" 
+                        placeholder="Price" 
+                        className={`input input-bordered w-full pl-12 pr-4 rounded-xl glass-input text-sm h-11 mt-2 ${errors.price ? 'border-error/60 focus:border-error' : ''}`}
+                        value={showEditModal ? currentPlant.price : newPlant.price} 
+                        onChange={(e) => showEditModal ? setCurrentPlant({ ...currentPlant, price: Number(e.target.value) }) : setNewPlant({ ...newPlant, price: Number(e.target.value) })} 
+                      />
+                      {errors.price && <span className="text-error text-xs ml-1 mt-1 block">{errors.price}</span>}
+                    </div>
+                  </div>
+
+                  <div className="form-control w-full space-y-2">
+                    <label className="text-sm font-semibold text-base-content/85 ml-1">Inventory Stock</label>
+                    <div className="relative">
+                      <LayoutGrid className="absolute left-4 top-1/2 -translate-y-1/2 h-4.5 w-4.5 text-base-content/40" />
+                      <input 
+                        type="number" 
+                        placeholder="Stock quantity (e.g. 50)" 
+                        className={`input input-bordered w-full pl-12 pr-4 rounded-xl glass-input text-sm h-11 mt-2 ${errors.stock ? 'border-error/60 focus:border-error' : ''}`}
+                        value={showEditModal ? (currentPlant.stock !== undefined ? currentPlant.stock : 50) : newPlant.stock} 
+                        onChange={(e) => showEditModal ? setCurrentPlant({ ...currentPlant, stock: Number(e.target.value) }) : setNewPlant({ ...newPlant, stock: Number(e.target.value) })} 
+                      />
+                      {errors.stock && <span className="text-error text-xs ml-1 mt-1 block">{errors.stock}</span>}
+                    </div>
+                  </div>
+
+                </div>
+
+                {/* Image URL */}
                 <div className="form-control w-full space-y-2">
                   <label className="text-sm font-semibold text-base-content/85 ml-1">Image URL</label>
                   <div className="relative">
@@ -339,22 +365,21 @@ const ManagePlants = () => {
                   </div>
                 </div>
 
-              </div>
-
-              {/* Description */}
-              <div className="form-control w-full space-y-2">
-                <label className="text-sm font-semibold text-base-content/85 ml-1">Description</label>
-                <textarea 
-                  placeholder="Foliage, growth rate details..." 
-                  className={`textarea textarea-bordered w-full rounded-xl glass-input text-sm h-24 mt-2 ${errors.description ? 'border-error/60 focus:border-error' : ''}`}
-                  value={showEditModal ? currentPlant.description : newPlant.description} 
-                  onChange={(e) => showEditModal ? setCurrentPlant({ ...currentPlant, description: e.target.value }) : setNewPlant({ ...newPlant, description: e.target.value })}
-                ></textarea>
-                {errors.description && <span className="text-error text-xs ml-1 mt-1 block">{errors.description}</span>}
+                {/* Description */}
+                <div className="form-control w-full space-y-2">
+                  <label className="text-sm font-semibold text-base-content/85 ml-1">Description</label>
+                  <textarea 
+                    placeholder="Foliage, growth rate details..." 
+                    className={`textarea textarea-bordered w-full rounded-xl glass-input text-sm h-24 mt-2 ${errors.description ? 'border-error/60 focus:border-error' : ''}`}
+                    value={showEditModal ? currentPlant.description : newPlant.description} 
+                    onChange={(e) => showEditModal ? setCurrentPlant({ ...currentPlant, description: e.target.value }) : setNewPlant({ ...newPlant, description: e.target.value })}
+                  ></textarea>
+                  {errors.description && <span className="text-error text-xs ml-1 mt-1 block">{errors.description}</span>}
+                </div>
               </div>
 
               {/* Submit Buttons */}
-              <div className="pt-4 flex justify-end gap-3">
+              <div className="pt-4 flex justify-end gap-3 border-t border-base-300/40 flex-shrink-0">
                 <button type="button" className="btn btn-ghost hover:bg-base-200 text-sm font-semibold rounded-xl h-11 px-5" onClick={() => { setShowAddModal(false); setShowEditModal(false); setErrors({}); }}>
                   Cancel
                 </button>
