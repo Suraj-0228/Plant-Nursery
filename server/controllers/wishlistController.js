@@ -9,7 +9,7 @@ const getWishlist = async (req, res) => {
     const { userId } = req.params;
     const wishlist = await Wishlist.findOne({ user: userId }).populate('plants');
     if (!wishlist) {
-      return res.status(404).json({ message: 'Wishlist not found' });
+      return res.status(200).json({ user: userId, plants: [] });
     }
     res.json(wishlist);
   } catch (error) {
